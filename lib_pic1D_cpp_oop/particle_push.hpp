@@ -1,0 +1,47 @@
+#include <vector>
+#include "const.hpp"
+
+
+struct Particle
+{
+    double x;
+    double y;
+    double z;
+    double vx;
+    double vy; 
+    double vz;
+    double bx; 
+    double by; 
+    double bz; 
+    double ex; 
+    double ey; 
+    double ez;
+
+    Particle() : 
+        x(0.0), 
+        y(0.0), 
+        z(0.0), 
+        vx(0.0), 
+        vy(0.0), 
+        vz(0.0), 
+        bx(0.0), 
+        by(0.0), 
+        bz(0.0), 
+        ex(0.0), 
+        ey(0.0), 
+        ez(0.0)
+        {}
+};
+
+
+class ParticlePush
+{
+private: 
+
+public:
+
+private:
+    double test();
+};
+
+

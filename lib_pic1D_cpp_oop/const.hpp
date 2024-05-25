@@ -1,0 +1,4 @@
+
+extern const int numParticles;
+
+

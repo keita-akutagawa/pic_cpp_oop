@@ -44,10 +44,6 @@ public:
         int step
     );
 
-    void getParticles();
-
-    void getFields();
-
 private:
 
 };

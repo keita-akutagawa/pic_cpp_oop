@@ -1,5 +1,6 @@
 #include <string>
 #include <fstream>
+#include "../lib_pic1D_cpp_oop/initialize_particle.hpp"
 #include "../lib_pic1D_cpp_oop/pic1D.hpp"
 
 

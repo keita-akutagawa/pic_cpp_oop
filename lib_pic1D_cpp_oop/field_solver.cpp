@@ -1,10 +1,7 @@
 #include "field_solver.hpp"
 
 
-void FieldSolver::timeEvolutionB(
-    const std::vector<std::vector<double>>& E, 
-    std::vector<std::vector<double>>& B
-)
+void FieldSolver::timeEvolutionB()
 {
     for (int i = 0; i < nx-1; i++) {
         //B[0][i] += 0.0;
@@ -19,9 +16,7 @@ void FieldSolver::timeEvolutionB(
 
 
 void FieldSolver::timeEvolutionE(
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& current, 
-    std::vector<std::vector<double>>& E
+    const std::vector<std::vector<double>>& current
 )
 {
     for (int i = 1; i < nx; i++) {
@@ -39,4 +34,14 @@ void FieldSolver::timeEvolutionE(
                 + c * c * ((B[1][0] - B[1][nx-1]) / dx)) * dt;
 }
 
+
+std::vector<std::vector<double>> FieldSolver::getB()
+{
+    return B;
+}
+
+std::vector<std::vector<double>> FieldSolver::getE()
+{
+    return E;
+}
 

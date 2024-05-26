@@ -3,9 +3,7 @@
 #include "current.hpp"
 
 
-void Current::resetCurrent(
-    std::vector<std::vector<double>>& current
-)
+void Current::resetCurrent()
 {
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx; i++) {
@@ -17,8 +15,7 @@ void Current::resetCurrent(
 
 void Current::calculateCurrent(
     const std::vector<Particle>& particlesIon, 
-    const std::vector<Particle>& particlesEleectron, 
-    std::vector<std::vector<double>>& current
+    const std::vector<Particle>& particlesEleectron
 )
 {
     double cx1, cx2, xIndex1, xIndex2;
@@ -31,7 +28,7 @@ void Current::calculateCurrent(
         xIndex1 = floor(xOverDx);
         xIndex2 = xIndex1 + 1;
         xIndex2 = (xIndex2 == nx) ? 0 : xIndex2;
-        
+
         cx1 = xOverDx - xIndex1;
         cx2 = 1.0 - cx1;
 
@@ -49,5 +46,11 @@ void Current::calculateCurrent(
         current[2][xIndex1] += qVzOverGamma * cx2;
         current[2][xIndex2] += qVzOverGamma * cx1;
     }
+}
+
+
+std::vector<std::vector<double>> Current::getCurrent()
+{
+    return current;
 }
 

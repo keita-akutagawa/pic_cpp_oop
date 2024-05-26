@@ -6,17 +6,17 @@
 class Current
 {
 private: 
+    std::vector<std::vector<double>> current;
 
 public: 
-    void resetCurrent(
-        std::vector<std::vector<double>>& current
-    );
+    void resetCurrent();
 
     void calculateCurrent(
         const std::vector<Particle>& particlesIon, 
-        const std::vector<Particle>& particlesEleectron, 
-        std::vector<std::vector<double>>& current
+        const std::vector<Particle>& particlesEleectron
     );
+
+    std::vector<std::vector<double>> getCurrent();
 
 private:
 

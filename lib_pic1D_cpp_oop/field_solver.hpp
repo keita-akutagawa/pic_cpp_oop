@@ -4,18 +4,18 @@
 class FieldSolver
 {
 private:
-    std::vector<std::vector<double>> B;
-    std::vector<std::vector<double>> E;
 
 public:
-    void timeEvolutionB();
-
-    void timeEvolutionE(
-        const std::vector<std::vector<double>>& current
+    void timeEvolutionB(
+        const std::vector<std::vector<double>>& E, 
+        std::vector<std::vector<double>>& B
     );
 
-    std::vector<std::vector<double>> getB();
-    std::vector<std::vector<double>> getE();
+    void timeEvolutionE(
+        const std::vector<std::vector<double>>& B, 
+        const std::vector<std::vector<double>>& current, 
+        std::vector<std::vector<double>>& E
+    );
 
 private:
 

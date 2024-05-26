@@ -6,23 +6,19 @@
 class ParticlePush
 {
 private: 
-    std::vector<Particle> particlesIon;
-    std::vector<Particle> particlesElectron;
 
 public:
-    ParticlePush() :
-        particlesIon(totalNumIon), 
-        particlesElectron(totalNumElectron)
-        {}
 
     void pushVelocity(
         const std::vector<std::vector<double>>& B, 
-        const std::vector<std::vector<double>>& E
+        const std::vector<std::vector<double>>& E, 
+        std::vector<Particle>& particlesIon, 
+        std::vector<Particle>& particlesElectron
     );
-    void pushPosition();
-
-    std::vector<Particle> getParticlesIon();
-    std::vector<Particle> getParticlesElectron();
+    void pushPosition(
+        std::vector<Particle>& particlesIon, 
+        std::vector<Particle>& particlesElectron
+    );
 
 private:
 

@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include "const.hpp"
 #include "particle_push.hpp"
 #include "field_solver.hpp"
@@ -27,11 +28,21 @@ public:
         current(3, std::vector<double>(nx, 0.0))
         {}
     
-    void initialize();
+    virtual void initialize();
     
     void oneStep();
 
-    void save();
+    void saveFields(
+        std::string directoryname, 
+        std::string filenameWithoutStep, 
+        int step
+    );
+
+    void saveParticle(
+        std::string directoryname, 
+        std::string filenameWithoutStep, 
+        int step
+    );
 
     void getParticles();
 

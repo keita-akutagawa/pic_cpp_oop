@@ -4,6 +4,7 @@
 #include "particle_push.hpp"
 #include "field_solver.hpp"
 #include "current_calculater.hpp"
+#include "boundary.hpp"
 
 
 class PIC1D
@@ -18,6 +19,7 @@ private:
     ParticlePush particlePush;
     FieldSolver fieldSolver;
     CurrentCalculater currentCalculater;
+    Boundary boundary;
 
 public:
     PIC1D() :

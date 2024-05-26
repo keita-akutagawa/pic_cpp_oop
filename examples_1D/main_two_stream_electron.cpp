@@ -4,6 +4,10 @@
 #include "../lib_pic1D_cpp_oop/pic1D.hpp"
 
 
+const double c;
+const double epsilon0;
+const double mu0;
+
 const int nx;
 const double dx;
 const double dt;
@@ -13,12 +17,7 @@ const int numberDensityElectron;
 
 const int totalNumIon;
 const int totalNumElectron;
-
 const int totalNumParticles;
-
-const double c;
-const double epsilon0;
-const double mu0;
 
 const double mRatio;
 const double mIon;

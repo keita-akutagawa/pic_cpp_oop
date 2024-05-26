@@ -1,4 +1,3 @@
-#include <vector>
 #include <cmath>
 #include "particle_push.hpp"
 

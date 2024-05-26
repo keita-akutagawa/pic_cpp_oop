@@ -25,7 +25,7 @@ void Current::calculateCurrent(
     for (int i = 0; i < totalNumIon; i++) {
         xOverDx = particlesIon[i].x / dx;
 
-        xIndex1 = floor(xOverDx);
+        xIndex1 = std::floor(xOverDx);
         xIndex2 = xIndex1 + 1;
         xIndex2 = (xIndex2 == nx) ? 0 : xIndex2;
 

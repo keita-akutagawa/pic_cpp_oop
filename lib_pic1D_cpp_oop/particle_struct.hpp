@@ -9,12 +9,6 @@ struct Particle
     double vy; 
     double vz;
     double gamma;
-    double bx; 
-    double by; 
-    double bz; 
-    double ex; 
-    double ey; 
-    double ez;
 
     Particle() : 
         x(0.0), 
@@ -23,7 +17,21 @@ struct Particle
         vx(0.0), 
         vy(0.0), 
         vz(0.0), 
-        gamma(0.0),
+        gamma(0.0)
+        {}
+};
+
+
+struct ParticleField
+{
+    double bx;
+    double by;
+    double bz;
+    double ex;
+    double ey; 
+    double ez;
+
+    ParticleField() : 
         bx(0.0), 
         by(0.0), 
         bz(0.0), 

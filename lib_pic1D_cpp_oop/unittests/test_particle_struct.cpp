@@ -1,10 +1,10 @@
-#include "../particle_push.hpp"
+#include "../particle_struct.hpp"
 #include "../const.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
 
 
-TEST(ParticlePush, setParticle)
+TEST(ParticleStruct, setParticle)
 {
     const int totalNumParticles = 10;
     std::vector<Particle> particles(totalNumParticles);

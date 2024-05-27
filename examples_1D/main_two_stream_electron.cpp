@@ -1,58 +1,77 @@
 #include <string>
 #include <fstream>
+#include <cmath>
 #include "../lib_pic1D_cpp_oop/initialize_particle.hpp"
 #include "../lib_pic1D_cpp_oop/pic1D.hpp"
 
 
-const double c;
-const double epsilon0;
-const double mu0;
+const double c = 1.0;
+const double epsilon0 = 1.0;
+const double mu0 = 1.0;
 
-const int nx;
-const double dx;
-const double dt;
+const int nx = 512;
+const double dx = 1.0;
+extern const double xmin = 0.0; 
+extern const double xmax = nx * dx;
 
-const int numberDensityIon;
-const int numberDensityElectron;
+const double dt = 0.5;
 
-const int totalNumIon;
-const int totalNumElectron;
-const int totalNumParticles;
+const int numberDensityIon = 10;
+const int numberDensityElectron = 10;
 
-const double mRatio;
-const double mIon;
-const double mElectron;
-const double qRatio;
-const double qIon;
-const double qElectron;
+const int totalNumIon = nx * numberDensityIon;
+//追加
+const int totalNumElectronBeam1 = nx * numberDensityElectron / 2;
+const int totalNumElectronBeam2 = nx * numberDensityElectron / 2;
+const int totalNumElectron = totalNumElectronBeam1 + totalNumElectronBeam2;
+const int totalNumParticles = totalNumIon + totalNumElectron;
 
-const double tRatio;
-const double tIon;
-const double tElectron;
+const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 10.0;
 
-const double omegaPe;
-const double omegaPi;
-const double omegaCe;
-const double omegaCi;
+const double mRatio = 9.0;
+const double mElectron = 1.0;
+const double mIon = mRatio * mElectron;
 
-const double debyeLength;
+const double tRatio = 1.0;
+const double tElectron = 0.5 * mElectron * pow(0.01 * c, 2);
+const double tIon = tRatio * tElectron;
 
-const double bulkVxIon;
-const double bulkVyIon;
-const double bulkVzIon;
-const double bulkVxElectron;
-const double bulkVyElectron;
-const double bulkVzElectron;
-const double vThIon;
-const double vThElectron;
+const double qRatio = -1.0;
+const double qElectron = -1.0 * sqrt(epsilon0 * tElectron / static_cast<double>(numberDensityElectron));
+const double qIon = qRatio * qElectron;
 
-const int totalStep;
-const double totalTime;
+const double omegaPe = sqrt(static_cast<double>(numberDensityElectron) * pow(qElectron, 2) / mElectron / epsilon0);
+const double omegaPi = sqrt(static_cast<double>(numberDensityIon) * pow(qIon, 2) / mIon / epsilon0);
+const double omegaCe = abs(qElectron * B0 / mElectron);
+const double omegaCi = qIon * B0 / mIon;
+
+const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numberDensityElectron) / pow(qElectron, 2));
+
+const double vThIon = sqrt(2.0 * tIon / mIon);
+const double vThElectron = sqrt(2.0 * tElectron / mElectron);
+const double bulkVxIon = 0.0;
+const double bulkVyIon = 0.0;
+const double bulkVzIon = 0.0;
+const double bulkVxElectron = -10.0 * vThIon;
+const double bulkVyElectron = 0.0;
+const double bulkVzElectron = 0.0;
+//追加
+const double bulkVxElectronBeam = 10.0 * vThIon;
+const double bulkVyElectronBeam = 0.0;
+const double bulkVzElectronBeam = 0.0;
+
+const int totalStep = 10000;
+const double totalTime = 0.0;
 
 
 void PIC1D::initialize()
 {
-    
+    initializeParticle.uniformForPositionX(
+        0, totalNumIon, 0, particlesIon
+    );
+    initializeParticle.uniformForPositionX(
+        0, totalNumElectron, 0, particlesElectron
+    );
 }
 
 

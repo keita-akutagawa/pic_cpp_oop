@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include "const.hpp"
+#include "initialize_particle.hpp"
 #include "particle_push.hpp"
 #include "field_solver.hpp"
 #include "current_calculater.hpp"
@@ -16,6 +17,7 @@ private:
     std::vector<std::vector<double>> B;
     std::vector<std::vector<double>> current;
 
+    InitializeParticle initializeParticle;
     ParticlePush particlePush;
     FieldSolver fieldSolver;
     CurrentCalculater currentCalculater;

@@ -87,10 +87,12 @@ void ParticlePush::pushVelocityOfOneSpecies(
         vx = vxPlus + qOverMTimesDtOver2 * ex;
         vy = vyPlus + qOverMTimesDtOver2 * ey;
         vz = vzPlus + qOverMTimesDtOver2 * ez;
+        gamma = sqrt(1.0 + (vx * vx + vy * vy + vz * vz) * tmp1OverC2);
 
         particlesSpecies[i].vx = vx;
         particlesSpecies[i].vy = vy;
         particlesSpecies[i].vz = vz;
+        particlesSpecies[i].gamma = gamma;
     } 
 }
 

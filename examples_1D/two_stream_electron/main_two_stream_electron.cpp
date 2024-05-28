@@ -1,5 +1,7 @@
 #include <string>
 #include <fstream>
+#include <iostream>
+#include <iomanip>
 #include <cmath>
 #include "../../lib_pic1D_cpp_oop/pic1D.hpp"
 
@@ -60,7 +62,7 @@ const double bulkVyElectronBeam = 0.0;
 const double bulkVzElectronBeam = 0.0;
 
 const int totalStep = 10000;
-const double totalTime = 0.0;
+double totalTime = 0.0;
 
 
 void PIC1D::initialize()
@@ -107,6 +109,9 @@ int main()
 
     for (int step = 0; step < totalStep+1; step++) {
         if (step % recordStep == 0) {
+            std::cout << std::to_string(step) << " step done : total time is "
+                      << std::setprecision(4) << totalTime
+                      << std::endl;
             pIC1D.saveFields(
                 directoryname, filenameWithoutStep, step
             );
@@ -116,6 +121,8 @@ int main()
         }
 
         pIC1D.oneStep();
+
+        totalTime += dt;
     }
 
     return 0;

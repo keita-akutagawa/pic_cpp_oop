@@ -48,4 +48,4 @@ extern const double bulkVyElectron;
 extern const double bulkVzElectron;
 
 extern const int totalStep;
-extern const double totalTime;
+extern double totalTime;

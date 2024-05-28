@@ -6,21 +6,31 @@ void ParticlePush::pushVelocity(
     const std::vector<std::vector<double>>& B, 
     const std::vector<std::vector<double>>& E, 
     std::vector<Particle>& particlesIon, 
-    std::vector<Particle>& particlesElectron
+    std::vector<Particle>& particlesElectron, 
+    double dt
 )
 {
-    pushVelocityOfOneSpecies(B, E, particlesIon, qIon, mIon, totalNumIon);
-    pushVelocityOfOneSpecies(B, E, particlesElectron, qElectron, mElectron, totalNumElectron);
+    pushVelocityOfOneSpecies(
+        B, E, particlesIon, qIon, mIon, totalNumIon, dt
+    );
+    pushVelocityOfOneSpecies(
+        B, E, particlesElectron, qElectron, mElectron, totalNumElectron, dt
+    );
 }
 
 
 void ParticlePush::pushPosition(
     std::vector<Particle>& particlesIon, 
-    std::vector<Particle>& particlesElectron
+    std::vector<Particle>& particlesElectron, 
+    double dt
 )
 {
-    pushPositionOfOneSpecies(particlesIon, totalNumIon);
-    pushPositionOfOneSpecies(particlesElectron, totalNumElectron);
+    pushPositionOfOneSpecies(
+        particlesIon, totalNumIon, dt
+    );
+    pushPositionOfOneSpecies(
+        particlesElectron, totalNumElectron, dt
+    );
 }
 
 
@@ -28,7 +38,8 @@ void ParticlePush::pushVelocityOfOneSpecies(
     const std::vector<std::vector<double>>& B, 
     const std::vector<std::vector<double>>& E, 
     std::vector<Particle>& particlesSpecies, 
-    double q, double m, double totalNumSpecies
+    double q, double m, double totalNumSpecies, 
+    double dt
 )
 {
     double qOverMTimesDtOver2;
@@ -144,7 +155,8 @@ inline ParticleField ParticlePush::getParticleFields(
 
 void ParticlePush::pushPositionOfOneSpecies(
     std::vector<Particle>& particlesSpecies, 
-    double totalNumSpecies
+    double totalNumSpecies, 
+    double dt
 )
 {
     double vx, vy, vz, gamma;

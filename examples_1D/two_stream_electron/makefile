@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -std=c++20 -Wall -pedantic-errors -fopenmp -O3 -mtune=native -march=native
-SRCDIR = ../lib_pic1d_cpp
+SRCDIR = ../../lib_pic1D_cpp_oop
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(SRCDIR)/%.o, $(SOURCES))
 MAIN = main_two_stream_electron.o

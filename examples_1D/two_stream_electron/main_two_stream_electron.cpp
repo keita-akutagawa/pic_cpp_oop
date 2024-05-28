@@ -1,7 +1,6 @@
 #include <string>
 #include <fstream>
 #include <cmath>
-#include "../lib_pic1D_cpp_oop/initialize_particle.hpp"
 #include "../lib_pic1D_cpp_oop/pic1D.hpp"
 
 
@@ -84,6 +83,14 @@ void PIC1D::initialize()
         bulkVxElectronBeam, bulkVyElectronBeam, bulkVzElectronBeam, vThElectron, 
         totalNumElectron / 2, totalNumElectron, 400, particlesElectron
     );
+
+    for (int comp = 0; comp < 3; comp++) {
+        for (int i = 0; i < nx; i++) {
+            B[comp][i] = 0.0;
+            E[comp][i] = 0.0;
+            current[comp][i] = 0.0;
+        }
+    }
 }
 
 

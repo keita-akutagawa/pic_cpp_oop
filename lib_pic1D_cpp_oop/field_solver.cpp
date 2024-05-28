@@ -3,7 +3,8 @@
 
 void FieldSolver::timeEvolutionB(
     const std::vector<std::vector<double>>& E, 
-    std::vector<std::vector<double>>& B
+    std::vector<std::vector<double>>& B, 
+    double dt
 )
 {
     for (int i = 0; i < nx-1; i++) {
@@ -21,7 +22,8 @@ void FieldSolver::timeEvolutionB(
 void FieldSolver::timeEvolutionE(
     const std::vector<std::vector<double>>& B, 
     const std::vector<std::vector<double>>& current, 
-    std::vector<std::vector<double>>& E
+    std::vector<std::vector<double>>& E, 
+    double dt
 )
 {
     for (int i = 1; i < nx; i++) {

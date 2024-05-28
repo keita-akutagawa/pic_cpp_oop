@@ -48,7 +48,7 @@ void InitializeParticle::maxwellDistributionForVelocity(
             vy = set_vx(mt64Vy);
             vz = set_vx(mt64Vz);
 
-            if (vx * vx + vy * vy + vz * vz < c * c) exit;
+            if (vx * vx + vy * vy + vz * vz < c * c) break;
         }
 
         particlesSpecies[i].vx = vx;

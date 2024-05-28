@@ -70,15 +70,27 @@ void PIC1D::initialize()
         0, totalNumIon, 0, particlesIon
     );
     initializeParticle.uniformForPositionX(
-        0, totalNumElectron, 0, particlesElectron
+        0, totalNumElectron, 100, particlesElectron
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxIon, bulkVyIon, bulkVzIon, vThIon, 
+        0, totalNumIon, 200, particlesIon
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, 
+        0, totalNumElectron / 2, 300, particlesElectron
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxElectronBeam, bulkVyElectronBeam, bulkVzElectronBeam, vThElectron, 
+        totalNumElectron / 2, totalNumElectron, 400, particlesElectron
     );
 }
 
 
 int main()
 {
-    std::string directoryname = "results_CT";
-    std::string filenameWithoutStep = "orszag_tang";
+    std::string directoryname = "results";
+    std::string filenameWithoutStep = "two_stream_electron";
     std::ofstream logfile("log.txt");
     int recordStep = 100;
 

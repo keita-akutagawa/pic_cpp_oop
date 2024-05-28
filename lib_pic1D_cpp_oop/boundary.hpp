@@ -1,3 +1,4 @@
+#include <vector>
 #include "const.hpp"
 #include "particle_struct.hpp"
 
@@ -8,17 +9,23 @@ private:
 
 public:
 
-    void periodicBoundaryParticle();
-    void conductingWallBoundaryParticle();
+    void periodicBoundaryParticleX(
+        std::vector<Particle>& particlesIon,
+        std::vector<Particle>& particlesElectron
+    );
+    void conductingWallBoundaryParticleX(
+        std::vector<Particle>& particlesIon,
+        std::vector<Particle>& particlesElectron
+    );
 
-    void periodicBoundaryB();
-    void conductingWallBoundaryB();
+    void periodicBoundaryBX();
+    void conductingWallBoundaryBX();
 
-    void periodicBoundaryE();
-    void conductingWallBoundaryE();
+    void periodicBoundaryEX();
+    void conductingWallBoundaryEX();
 
-    void periodicBoundaryCurrent();
-    void conductingWallBoundaryCurrent();
+    void periodicBoundaryCurrentX();
+    void conductingWallBoundaryCurrentX();
 
 private:
 

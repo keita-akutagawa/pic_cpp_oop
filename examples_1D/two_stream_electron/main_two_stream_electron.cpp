@@ -27,11 +27,11 @@ const int totalNumParticles = totalNumIon + totalNumElectron;
 
 const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 10.0;
 
-const double mRatio = 9.0;
+const double mRatio = 100.0;
 const double mElectron = 1.0;
 const double mIon = mRatio * mElectron;
 
-const double tRatio = 1.0;
+const double tRatio = 100.0;
 const double tElectron = 0.5 * mElectron * pow(0.01 * c, 2);
 const double tIon = tRatio * tElectron;
 
@@ -106,7 +106,7 @@ int main()
     pIC1D.initialize();
 
     for (int step = 0; step < totalStep+1; step++) {
-        if (step % recordStep) {
+        if (step % recordStep == 0) {
             pIC1D.saveFields(
                 directoryname, filenameWithoutStep, step
             );

@@ -59,14 +59,14 @@ void PIC1D::saveFields(
     std::string filenameB, filenameE, filenameCurrent;
 
     filenameB = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_B.txt";
+             + filenameWithoutStep + "_B_" + std::to_string(step)
+             + ".txt";
     filenameE = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_E.txt";
+             + filenameWithoutStep + "_E_" + std::to_string(step)
+             + ".txt";
     filenameCurrent = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_current.txt";
+             + filenameWithoutStep + "_current_" + std::to_string(step)
+             + ".txt";
 
 
     std::ofstream ofsB(filenameB);
@@ -111,17 +111,17 @@ void PIC1D::saveParticle(
     std::string filenameVIon, filenameVElectron;
 
     filenameXIon = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_x_ion.txt";
+             + filenameWithoutStep + "_x_ion_" + std::to_string(step)
+             + ".txt";
     filenameXElectron = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_x_electron.txt";
+             + filenameWithoutStep + "_x_electron_" + std::to_string(step)
+             + ".txt";
     filenameVIon = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_v_ion.txt";
+             + filenameWithoutStep + "_v_ion_" + std::to_string(step)
+             + ".txt";
     filenameVElectron = directoryname + "/"
-             + filenameWithoutStep + "_" + std::to_string(step)
-             + "_v_electron.txt";
+             + filenameWithoutStep + "_v_electron_" + std::to_string(step)
+             + ".txt";
 
 
     std::ofstream ofsXIon(filenameXIon);

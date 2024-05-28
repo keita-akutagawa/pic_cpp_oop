@@ -1,4 +1,5 @@
-
+#ifndef PARTICLE_STRUCT_H
+#define PARTICLE_STRUCT_H
 
 struct Particle
 {
@@ -40,4 +41,6 @@ struct ParticleField
         ez(0.0)
         {}
 };
+
+#endif
 

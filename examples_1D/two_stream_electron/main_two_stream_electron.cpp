@@ -1,7 +1,7 @@
 #include <string>
 #include <fstream>
 #include <cmath>
-#include "../lib_pic1D_cpp_oop/pic1D.hpp"
+#include "../../lib_pic1D_cpp_oop/pic1D.hpp"
 
 
 const double c = 1.0;

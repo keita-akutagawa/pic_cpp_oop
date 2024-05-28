@@ -6,7 +6,6 @@
 #include "field_solver.hpp"
 #include "current_calculater.hpp"
 #include "boundary.hpp"
-#include "../lib_pic1D_cpp_oop/initialize_particle.hpp"
 
 
 class PIC1D

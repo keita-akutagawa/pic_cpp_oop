@@ -14,6 +14,15 @@ void Boundary::periodicBoundaryParticleX(
             particlesIon[i].x -= xmax;
         }
     }
+
+    for (int i = 0; i < totalNumElectron; i++) {
+        if (particlesElectron[i].x < xmin) {
+            particlesElectron[i].x += xmax;
+        }
+        if (particlesElectron[i].x > xmax) {
+            particlesElectron[i].x -= xmax;
+        }
+    }
 }
 
 

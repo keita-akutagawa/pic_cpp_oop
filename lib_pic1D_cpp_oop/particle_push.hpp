@@ -28,7 +28,7 @@ private:
         std::vector<Particle>& particlesSpecies, 
         const std::vector<std::vector<double>>& B, 
         const std::vector<std::vector<double>>& E, 
-        double q, double m, double totalNumSpecies, 
+        double q, double m, int totalNumSpecies, 
         double dt
     );
 
@@ -40,7 +40,7 @@ private:
 
     void pushPositionOfOneSpecies(
         std::vector<Particle>& particlesSpecies, 
-        double totalNumSpecies, 
+        int totalNumSpecies, 
         double dt
     );
 };

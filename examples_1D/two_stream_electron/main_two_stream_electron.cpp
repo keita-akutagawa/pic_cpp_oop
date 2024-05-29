@@ -73,17 +73,26 @@ void PIC1D::initialize()
     initializeParticle.uniformForPositionX(
         0, totalNumElectron, 100, particlesElectron
     );
+    for (int i = 0; i < totalNumIon; i++) {
+        particlesIon[i].y = 0.0;
+        particlesIon[i].z = 0.0;
+    }
+    for (int i = 0; i < totalNumElectron; i++) {
+        particlesElectron[i].y = 0.0;
+        particlesElectron[i].z = 0.0;
+    }
+
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxIon, bulkVyIon, bulkVzIon, vThIon, 
         0, totalNumIon, 200, particlesIon
     );
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, 
-        0, totalNumElectron / 2, 300, particlesElectron
+        0, totalNumElectronBeam1, 300, particlesElectron
     );
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxElectronBeam, bulkVyElectronBeam, bulkVzElectronBeam, vThElectron, 
-        totalNumElectron / 2, totalNumElectron, 400, particlesElectron
+        totalNumElectronBeam1, totalNumElectron, 400, particlesElectron
     );
 
     for (int i = 0; i < nx; i++) {
@@ -120,6 +129,7 @@ int main()
             std::cout << std::to_string(step) << " step done : total time is "
                       << std::setprecision(4) << totalTime
                       << std::endl;
+            logfile << std::setprecision(6) << totalTime << std::endl;
             pIC1D.saveFields(
                 directoryname, filenameWithoutStep, step
             );

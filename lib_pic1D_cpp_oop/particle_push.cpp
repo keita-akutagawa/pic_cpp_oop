@@ -38,7 +38,7 @@ void ParticlePush::pushVelocityOfOneSpecies(
     std::vector<Particle>& particlesSpecies, 
     const std::vector<std::vector<double>>& B, 
     const std::vector<std::vector<double>>& E,     
-    double q, double m, double totalNumSpecies, 
+    double q, double m, int totalNumSpecies, 
     double dt
 )
 {
@@ -55,7 +55,7 @@ void ParticlePush::pushVelocityOfOneSpecies(
     ParticleField particleField;
 
     qOverMTimesDtOver2 = q / m * dt / 2.0;
-    tmp1OverC2 = 1.0 / c / c;
+    tmp1OverC2 = 1.0 / (c * c);
 
     for (int i = 0; i < totalNumSpecies; i++) {
 
@@ -85,7 +85,7 @@ void ParticlePush::pushVelocityOfOneSpecies(
 
         vxMinus = vx + qOverMTimesDtOver2 * ex;
         vyMinus = vy + qOverMTimesDtOver2 * ey;
-        vzMinus = vz * qOverMTimesDtOver2 * ez;
+        vzMinus = vz + qOverMTimesDtOver2 * ez;
 
         vx0 = vxMinus + (vyMinus * tz - vzMinus * ty);
         vy0 = vyMinus + (vzMinus * tx - vxMinus * tz);
@@ -155,7 +155,7 @@ inline ParticleField ParticlePush::getParticleFields(
 
 void ParticlePush::pushPositionOfOneSpecies(
     std::vector<Particle>& particlesSpecies, 
-    double totalNumSpecies, 
+    int totalNumSpecies, 
     double dt
 )
 {

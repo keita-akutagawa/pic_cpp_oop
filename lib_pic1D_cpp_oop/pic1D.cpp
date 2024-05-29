@@ -57,6 +57,8 @@ void PIC1D::saveFields(
 )
 {
     std::string filenameB, filenameE, filenameCurrent;
+    std::string filenameBEnergy, filenameEEnergy;
+    double BEnergy = 0.0, EEnergy = 0.0;
 
     filenameB = directoryname + "/"
              + filenameWithoutStep + "_B_" + std::to_string(step)
@@ -67,6 +69,12 @@ void PIC1D::saveFields(
     filenameCurrent = directoryname + "/"
              + filenameWithoutStep + "_current_" + std::to_string(step)
              + ".txt";
+    filenameBEnergy = directoryname + "/"
+             + filenameWithoutStep + "_BEnergy_" + std::to_string(step)
+             + ".txt";
+    filenameEEnergy = directoryname + "/"
+             + filenameWithoutStep + "_EEnergy_" + std::to_string(step)
+             + ".txt";
 
 
     std::ofstream ofsB(filenameB);
@@ -74,20 +82,26 @@ void PIC1D::saveFields(
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
             ofsB << B[comp][i] << ",";
+            BEnergy += B[comp][i] * B[comp][i];
         }
         ofsB << B[comp][nx-1];
         ofsB << std::endl;
+        BEnergy += B[comp][nx-1] * B[comp][nx-1];
     }
+    BEnergy += 0.5 / mu0;
 
     std::ofstream ofsE(filenameE);
     ofsE << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
             ofsE << E[comp][i] << ",";
+            EEnergy += E[comp][i] * E[comp][i];
         }
         ofsE << E[comp][nx-1];
         ofsE << std::endl;
+        EEnergy += E[comp][nx-1] * E[comp][nx-1];
     }
+    EEnergy *= 0.5 * epsilon0;
 
     std::ofstream ofsCurrent(filenameCurrent);
     ofsCurrent << std::setprecision(6);
@@ -98,6 +112,14 @@ void PIC1D::saveFields(
         ofsCurrent << current[comp][nx-1];
         ofsCurrent << std::endl;
     }
+
+    std::ofstream ofsBEnergy(filenameBEnergy);
+    ofsBEnergy << std::setprecision(6);
+    ofsBEnergy << BEnergy << std::endl;
+
+    std::ofstream ofsEEnergy(filenameEEnergy);
+    ofsEEnergy << std::setprecision(6);
+    ofsEEnergy << EEnergy << std::endl;
 }
 
 
@@ -109,6 +131,8 @@ void PIC1D::saveParticle(
 {
     std::string filenameXIon, filenameXElectron;
     std::string filenameVIon, filenameVElectron;
+    std::string filenameKineticEnergy;
+    double vx, vy, vz, KineticEnergy = 0.0;
 
     filenameXIon = directoryname + "/"
              + filenameWithoutStep + "_x_ion_" + std::to_string(step)
@@ -121,6 +145,9 @@ void PIC1D::saveParticle(
              + ".txt";
     filenameVElectron = directoryname + "/"
              + filenameWithoutStep + "_v_electron_" + std::to_string(step)
+             + ".txt";
+    filenameKineticEnergy = directoryname + "/"
+             + filenameWithoutStep + "_KE_" + std::to_string(step)
              + ".txt";
 
 
@@ -143,17 +170,33 @@ void PIC1D::saveParticle(
     std::ofstream ofsVIon(filenameVIon);
     ofsVIon << std::setprecision(6);
     for (int i = 0; i < totalNumIon; i++) {
-        ofsVIon << particlesIon[i].vx << "," 
-                << particlesIon[i].vy << "," 
-                << particlesIon[i].vz << std::endl ;
+        vx = particlesIon[i].vx;
+        vy = particlesIon[i].vy;
+        vz = particlesIon[i].vz;
+
+        ofsVIon << vx << "," 
+                << vy << "," 
+                << vz << std::endl;
+
+        KineticEnergy += 0.5 * mIon * (vx * vx + vy * vy + vz * vz);
     }
 
     std::ofstream ofsVElectron(filenameVElectron);
     ofsVElectron << std::setprecision(6);
     for (int i = 0; i < totalNumElectron; i++) {
-        ofsVElectron << particlesElectron[i].vx << "," 
-                     << particlesElectron[i].vy << "," 
-                     << particlesElectron[i].vz << std::endl ;
+        vx = particlesElectron[i].vx;
+        vy = particlesElectron[i].vy;
+        vz = particlesElectron[i].vz;
+
+        ofsVElectron << vx << "," 
+                     << vy << "," 
+                     << vz << std::endl;
+        
+        KineticEnergy += 0.5 * mElectron * (vx * vx + vy * vy + vz * vz);
     }
+
+    std::ofstream ofsKineticEnergy(filenameKineticEnergy);
+    ofsKineticEnergy << std::setprecision(6);
+    ofsKineticEnergy << KineticEnergy << std::endl;
 }
 

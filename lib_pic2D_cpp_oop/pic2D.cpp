@@ -8,12 +8,15 @@ void PIC1D::oneStep()
     fieldSolver.timeEvolutionB(B, E, dt/2.0);
 
     for (int i = 0; i < nx; i++) {
-        tmpB[0][i] = B[0][i];
-        tmpB[1][i] = 0.5 * (B[1][i] + B[1][(i-1+nx)%nx]);
-        tmpB[2][i] = 0.5 * (B[2][i] + B[2][(i-1+nx)%nx]);
-        tmpE[0][i] = 0.5 * (E[0][i] + E[0][(i-1+nx)%nx]);
-        tmpE[1][i] = E[1][i];
-        tmpE[2][i] = E[2][i];
+        for (int j = 0; j < ny; j++) {
+            tmpB[0][i][j] = 0.5 * (B[0][i][j] + B[0][i][(j - 1 + ny) % ny]);
+            tmpB[1][i][j] = 0.5 * (B[1][i][j] + B[1][(i - 1 + nx) % nx][j]);
+            tmpB[2][i][j] = 0.25 * (B[2][i][j] + B[2][(i - 1 + nx) % nx][j]
+                          + B[2][i][(j - 1 + ny) % ny] + B[2][(i - 1 + nx) % nx][(j - 1 + ny) % ny]);
+            tmpE[0][i][j] = 0.5 * (E[0][i][j] + E[0][(i - 1 + nx) % nx][j]);
+            tmpE[1][i][j] = 0.5 * (E[1][i][j] + E[1][i][(j - 1 + ny) % ny]);
+            tmpE[2][i][j] = E[2][i][j];
+        }
     }
 
     particlePush.pushVelocity(
@@ -32,9 +35,11 @@ void PIC1D::oneStep()
         tmpCurrent, particlesIon, particlesElectron
     );
     for (int i = 0; i < nx; i++) {
-        current[0][i] = 0.5 * (tmpCurrent[0][i] + tmpCurrent[0][(i+1)%nx]);
-        current[1][i] = tmpCurrent[1][i];
-        current[2][i] = tmpCurrent[2][i];
+        for (int j = 0; j < ny; j++) {
+            current[0][i][j] = 0.5 * (tmpCurrent[0][i][j] + tmpCurrent[0][(i + 1) % nx][j]);
+            current[1][i][j] = 0.5 * (tmpCurrent[1][i][j] + tmpCurrent[1][i][(j + 1) % ny]);
+            current[2][i][j] = tmpCurrent[2][i][j];
+        }
     }
 
     fieldSolver.timeEvolutionB(B, E, dt/2.0);
@@ -81,12 +86,18 @@ void PIC1D::saveFields(
     ofsB << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
-            ofsB << B[comp][i] << ",";
-            BEnergy += B[comp][i] * B[comp][i];
+            for (int j = 0; j < ny; j++) {
+                ofsB << B[comp][i][j] << ",";
+                BEnergy += B[comp][i][j] * B[comp][i][j];
+            }
         }
-        ofsB << B[comp][nx-1];
+        for (int j = 0; j < ny-1; j++) {
+            ofsB << B[comp][nx - 1][j] << ",";
+            BEnergy += B[comp][nx - 1][j] * B[comp][nx - 1][j];
+        }
+        ofsB << B[comp][nx - 1][ny - 1];
         ofsB << std::endl;
-        BEnergy += B[comp][nx-1] * B[comp][nx-1];
+        BEnergy += B[comp][nx - 1][ny - 1] * B[comp][nx - 1][ny - 1];
     }
     BEnergy += 0.5 / mu0;
 
@@ -94,12 +105,18 @@ void PIC1D::saveFields(
     ofsE << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
-            ofsE << E[comp][i] << ",";
-            EEnergy += E[comp][i] * E[comp][i];
+            for (int j = 0; j < ny; j++) {
+                ofsE << E[comp][i][j] << ",";
+                EEnergy += E[comp][i][j] * E[comp][i][j];
+            }
         }
-        ofsE << E[comp][nx-1];
+        for (int j = 0; j < ny-1; j++) {
+            ofsE << E[comp][nx - 1][j] << ",";
+            EEnergy += E[comp][nx - 1][j] * E[comp][nx - 1][j];
+        }
+        ofsE << E[comp][nx - 1][ny - 1];
         ofsE << std::endl;
-        EEnergy += E[comp][nx-1] * E[comp][nx-1];
+        EEnergy += E[comp][nx - 1][ny - 1] * E[comp][nx - 1][ny - 1];
     }
     EEnergy *= 0.5 * epsilon0;
 
@@ -107,9 +124,14 @@ void PIC1D::saveFields(
     ofsCurrent << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
-            ofsCurrent << current[comp][i] << ",";
+            for (int j = 0; j < ny; j++) {
+                ofsCurrent << current[comp][i][j] << ",";
+            }
         }
-        ofsCurrent << current[comp][nx-1];
+        for (int j = 0; j < ny-1; j++) {
+            ofsCurrent << current[comp][nx - 1][j] << ",";
+        }
+        ofsCurrent << current[comp][nx - 1][ny - 1];
         ofsCurrent << std::endl;
     }
 

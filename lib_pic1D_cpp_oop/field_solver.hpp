@@ -7,15 +7,15 @@ private:
 
 public:
     void timeEvolutionB(
-        const std::vector<std::vector<double>>& E, 
         std::vector<std::vector<double>>& B, 
+        const std::vector<std::vector<double>>& E, 
         double dt
     );
 
     void timeEvolutionE(
+        std::vector<std::vector<double>>& E, 
         const std::vector<std::vector<double>>& B, 
         const std::vector<std::vector<double>>& current, 
-        std::vector<std::vector<double>>& E, 
         double dt
     );
 

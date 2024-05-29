@@ -15,23 +15,23 @@ void CurrentCalculater::resetCurrent(
 
 
 void CurrentCalculater::calculateCurrent(
+    std::vector<std::vector<double>>& current, 
     const std::vector<Particle>& particlesIon, 
-    const std::vector<Particle>& particlesEleectron, 
-    std::vector<std::vector<double>>& current
+    const std::vector<Particle>& particlesEleectron
 )
 {
     calculateCurrentOfOneSpecies(
-        particlesIon, current, qIon, totalNumIon
+        current, particlesIon, qIon, totalNumIon
     );
     calculateCurrentOfOneSpecies(
-        particlesEleectron, current, qElectron, totalNumElectron
+        current, particlesEleectron, qElectron, totalNumElectron
     );
 }
 
 
 void CurrentCalculater::calculateCurrentOfOneSpecies(
-    const std::vector<Particle>& particlesSpecies,  
     std::vector<std::vector<double>>& current, 
+    const std::vector<Particle>& particlesSpecies,  
     double q, double totalNumSpecies
 )
 {

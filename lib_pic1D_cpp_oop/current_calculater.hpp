@@ -13,16 +13,16 @@ public:
     );
 
     void calculateCurrent(
+        std::vector<std::vector<double>>& current, 
         const std::vector<Particle>& particlesIon, 
-        const std::vector<Particle>& particlesEleectron, 
-        std::vector<std::vector<double>>& current
+        const std::vector<Particle>& particlesEleectron
     );
 
 private:
 
     void calculateCurrentOfOneSpecies(
-        const std::vector<Particle>& particlesSpecies, 
         std::vector<std::vector<double>>& current, 
+        const std::vector<Particle>& particlesSpecies, 
         double q, double totalNumSpecies
     );
 };

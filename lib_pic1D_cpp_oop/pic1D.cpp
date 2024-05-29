@@ -5,7 +5,7 @@
 
 void PIC1D::oneStep()
 {
-    fieldSolver.timeEvolutionB(E, B, dt/2.0);
+    fieldSolver.timeEvolutionB(B, E, dt/2.0);
 
     for (int i = 0; i < nx; i++) {
         tmpB[0][i] = B[0][i];
@@ -17,7 +17,7 @@ void PIC1D::oneStep()
     }
 
     particlePush.pushVelocity(
-        tmpB, tmpE, particlesIon, particlesElectron, dt
+        particlesIon, particlesElectron, tmpB, tmpE, dt
     );
 
     particlePush.pushPosition(
@@ -29,7 +29,7 @@ void PIC1D::oneStep()
 
     currentCalculater.resetCurrent(tmpCurrent);
     currentCalculater.calculateCurrent(
-        particlesIon, particlesElectron, tmpCurrent
+        tmpCurrent, particlesIon, particlesElectron
     );
     for (int i = 0; i < nx; i++) {
         current[0][i] = 0.5 * (tmpCurrent[0][i] + tmpCurrent[0][(i+1)%nx]);
@@ -37,9 +37,9 @@ void PIC1D::oneStep()
         current[2][i] = tmpCurrent[2][i];
     }
 
-    fieldSolver.timeEvolutionB(E, B, dt/2.0);
+    fieldSolver.timeEvolutionB(B, E, dt/2.0);
 
-    fieldSolver.timeEvolutionE(B, current, E, dt);
+    fieldSolver.timeEvolutionE(E, B, current, dt);
 
     particlePush.pushPosition(
         particlesIon, particlesElectron, dt/2.0
@@ -70,7 +70,7 @@ void PIC1D::saveFields(
 
 
     std::ofstream ofsB(filenameB);
-    ofsB << std::fixed << std::setprecision(6);
+    ofsB << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
             ofsB << B[comp][i] << ",";
@@ -80,7 +80,7 @@ void PIC1D::saveFields(
     }
 
     std::ofstream ofsE(filenameE);
-    ofsE << std::fixed << std::setprecision(6);
+    ofsE << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
             ofsE << E[comp][i] << ",";
@@ -90,7 +90,7 @@ void PIC1D::saveFields(
     }
 
     std::ofstream ofsCurrent(filenameCurrent);
-    ofsCurrent << std::fixed << std::setprecision(6);
+    ofsCurrent << std::setprecision(6);
     for (int comp = 0; comp < 3; comp++) {
         for (int i = 0; i < nx-1; i++) {
             ofsCurrent << current[comp][i] << ",";
@@ -125,7 +125,7 @@ void PIC1D::saveParticle(
 
 
     std::ofstream ofsXIon(filenameXIon);
-    ofsXIon << std::fixed << std::setprecision(6);
+    ofsXIon << std::setprecision(6);
     for (int i = 0; i < totalNumIon; i++) {
         ofsXIon << particlesIon[i].x << "," 
                 << particlesIon[i].y << "," 
@@ -133,7 +133,7 @@ void PIC1D::saveParticle(
     }
 
     std::ofstream ofsXElectron(filenameXElectron);
-    ofsXElectron << std::fixed << std::setprecision(6);
+    ofsXElectron << std::setprecision(6);
     for (int i = 0; i < totalNumElectron; i++) {
         ofsXElectron << particlesElectron[i].x << "," 
                      << particlesElectron[i].y << "," 
@@ -141,7 +141,7 @@ void PIC1D::saveParticle(
     }
 
     std::ofstream ofsVIon(filenameVIon);
-    ofsVIon << std::fixed << std::setprecision(6);
+    ofsVIon << std::setprecision(6);
     for (int i = 0; i < totalNumIon; i++) {
         ofsVIon << particlesIon[i].vx << "," 
                 << particlesIon[i].vy << "," 
@@ -149,7 +149,7 @@ void PIC1D::saveParticle(
     }
 
     std::ofstream ofsVElectron(filenameVElectron);
-    ofsVElectron << std::fixed << std::setprecision(6);
+    ofsVElectron << std::setprecision(6);
     for (int i = 0; i < totalNumElectron; i++) {
         ofsVElectron << particlesElectron[i].vx << "," 
                      << particlesElectron[i].vy << "," 

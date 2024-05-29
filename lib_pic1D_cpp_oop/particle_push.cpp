@@ -3,18 +3,18 @@
 
 
 void ParticlePush::pushVelocity(
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& E, 
     std::vector<Particle>& particlesIon, 
     std::vector<Particle>& particlesElectron, 
+    const std::vector<std::vector<double>>& B, 
+    const std::vector<std::vector<double>>& E, 
     double dt
 )
 {
     pushVelocityOfOneSpecies(
-        B, E, particlesIon, qIon, mIon, totalNumIon, dt
+        particlesIon, B, E, qIon, mIon, totalNumIon, dt
     );
     pushVelocityOfOneSpecies(
-        B, E, particlesElectron, qElectron, mElectron, totalNumElectron, dt
+        particlesElectron, B, E, qElectron, mElectron, totalNumElectron, dt
     );
 }
 
@@ -35,9 +35,9 @@ void ParticlePush::pushPosition(
 
 
 void ParticlePush::pushVelocityOfOneSpecies(
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& E, 
     std::vector<Particle>& particlesSpecies, 
+    const std::vector<std::vector<double>>& B, 
+    const std::vector<std::vector<double>>& E,     
     double q, double m, double totalNumSpecies, 
     double dt
 )

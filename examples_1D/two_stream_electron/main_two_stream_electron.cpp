@@ -17,8 +17,8 @@ extern const double xmax = nx * dx;
 
 const double dt = 0.5;
 
-const int numberDensityIon = 10;
-const int numberDensityElectron = 10;
+const int numberDensityIon = 100;
+const int numberDensityElectron = 100;
 
 const int totalNumIon = nx * numberDensityIon;
 //追加
@@ -106,6 +106,10 @@ int main()
     std::string filenameWithoutStep = "two_stream_electron";
     std::ofstream logfile("log.txt");
     int recordStep = 100;
+
+    std::cout << "total number of partices is " << totalNumParticles << std::endl;
+    std::cout << std::setprecision(4) 
+              << "omega_pe * t = " << totalStep * dt * omegaPe << std::endl;
 
     PIC1D pIC1D;
 

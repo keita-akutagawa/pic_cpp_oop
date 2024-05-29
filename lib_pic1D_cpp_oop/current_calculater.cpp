@@ -20,12 +20,27 @@ void CurrentCalculater::calculateCurrent(
     std::vector<std::vector<double>>& current
 )
 {
+    calculateCurrentOfOneSpecies(
+        particlesIon, current, qIon, totalNumIon
+    );
+    calculateCurrentOfOneSpecies(
+        particlesEleectron, current, qElectron, totalNumElectron
+    );
+}
+
+
+void CurrentCalculater::calculateCurrentOfOneSpecies(
+    const std::vector<Particle>& particlesSpecies,  
+    std::vector<std::vector<double>>& current, 
+    double q, double totalNumSpecies
+)
+{
     double cx1, cx2, xIndex1, xIndex2;
     double xOverDx;
     double qOverGamma, qVxOverGamma, qVyOverGamma, qVzOverGamma;
 
-    for (int i = 0; i < totalNumIon; i++) {
-        xOverDx = particlesIon[i].x / dx;
+    for (int i = 0; i < totalNumSpecies; i++) {
+        xOverDx = particlesSpecies[i].x / dx;
 
         xIndex1 = std::floor(xOverDx);
         xIndex2 = xIndex1 + 1;
@@ -34,10 +49,10 @@ void CurrentCalculater::calculateCurrent(
         cx1 = xOverDx - xIndex1;
         cx2 = 1.0 - cx1;
 
-        qOverGamma = qIon / particlesIon[i].gamma;
-        qVxOverGamma = qOverGamma * particlesIon[i].vx;
-        qVyOverGamma = qOverGamma * particlesIon[i].vy;
-        qVzOverGamma = qOverGamma * particlesIon[i].vz;
+        qOverGamma = q / particlesSpecies[i].gamma;
+        qVxOverGamma = qOverGamma * particlesSpecies[i].vx;
+        qVyOverGamma = qOverGamma * particlesSpecies[i].vy;
+        qVzOverGamma = qOverGamma * particlesSpecies[i].vz;
 
         current[0][xIndex1] += qVxOverGamma * cx2;
         current[0][xIndex2] += qVxOverGamma * cx1;
@@ -49,4 +64,5 @@ void CurrentCalculater::calculateCurrent(
         current[2][xIndex2] += qVzOverGamma * cx1;
     }
 }
+
 

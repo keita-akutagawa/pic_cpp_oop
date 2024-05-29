@@ -86,12 +86,16 @@ void PIC1D::initialize()
         totalNumElectron / 2, totalNumElectron, 400, particlesElectron
     );
 
-    for (int comp = 0; comp < 3; comp++) {
-        for (int i = 0; i < nx; i++) {
-            B[comp][i] = 0.0;
-            E[comp][i] = 0.0;
-            current[comp][i] = 0.0;
-        }
+    for (int i = 0; i < nx; i++) {
+        B[0][i] = B0;
+        B[1][i] = 0.0;
+        B[2][i] = 0.0;
+        E[0][i] = 0.0;
+        E[1][i] = 0.0;
+        E[2][i] = 0.0;
+        current[0][i] = 0.0;
+        current[1][i] = 0.0;
+        current[2][i] = 0.0;
     }
 }
 

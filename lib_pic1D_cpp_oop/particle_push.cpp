@@ -54,7 +54,7 @@ void ParticlePush::pushVelocityOfOneSpecies(
     double ex, ey, ez;
     ParticleField particleField;
 
-    qOverMTimesDtOver2 = qIon / mIon * dt / 2.0;
+    qOverMTimesDtOver2 = q / m * dt / 2.0;
     tmp1OverC2 = 1.0 / c / c;
 
     for (int i = 0; i < totalNumSpecies; i++) {

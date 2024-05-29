@@ -8,7 +8,7 @@
 #include "boundary.hpp"
 
 
-class PIC1D
+class PIC2D
 {
 private:
     std::vector<Particle> particlesIon;
@@ -27,7 +27,7 @@ private:
     Boundary boundary;
 
 public:
-    PIC1D() :
+    PIC2D() :
         particlesIon(totalNumIon), 
         particlesElectron(totalNumElectron), 
         E(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 

@@ -3,7 +3,7 @@
 #include "pic2D.hpp"
 
 
-void PIC1D::oneStep()
+void PIC2D::oneStep()
 {
     fieldSolver.timeEvolutionB(B, E, dt/2.0);
 
@@ -55,7 +55,7 @@ void PIC1D::oneStep()
 }
 
 
-void PIC1D::saveFields(
+void PIC2D::saveFields(
     std::string directoryname, 
     std::string filenameWithoutStep, 
     int step
@@ -145,7 +145,7 @@ void PIC1D::saveFields(
 }
 
 
-void PIC1D::saveParticle(
+void PIC2D::saveParticle(
     std::string directoryname, 
     std::string filenameWithoutStep, 
     int step

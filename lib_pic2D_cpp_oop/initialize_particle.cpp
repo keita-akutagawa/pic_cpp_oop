@@ -41,7 +41,9 @@ void InitializeParticle::maxwellDistributionForVelocity(
     double bulkVxSpecies, 
     double bulkVySpecies, 
     double bulkVzSpecies, 
-    double vThSpecies, 
+    double vxThSpecies, 
+    double vyThSpecies, 
+    double vzThSpecies, 
     int nStart, 
     int nEnd, 
     int seed, 
@@ -49,11 +51,11 @@ void InitializeParticle::maxwellDistributionForVelocity(
 )
 {
     std::mt19937_64 mt64Vx(seed);
-    std::normal_distribution<double> set_vx(bulkVxSpecies, vThSpecies);
+    std::normal_distribution<double> set_vx(bulkVxSpecies, vxThSpecies);
     std::mt19937_64 mt64Vy(seed + 10000);
-    std::normal_distribution<double> set_vy(bulkVySpecies, vThSpecies);
+    std::normal_distribution<double> set_vy(bulkVySpecies, vyThSpecies);
     std::mt19937_64 mt64Vz(seed + 100000);
-    std::normal_distribution<double> set_vz(bulkVzSpecies, vThSpecies);
+    std::normal_distribution<double> set_vz(bulkVzSpecies, vzThSpecies);
 
     for (int i = nStart; i < nEnd; i++) {
         double vx;

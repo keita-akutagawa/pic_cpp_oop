@@ -10,32 +10,34 @@ const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
 
-const int nx = 512;
+const int nx = 256;
 const double dx = 1.0;
 extern const double xmin = 0.0; 
 extern const double xmax = nx * dx;
 
+const int ny = 256;
+const double dy = 1.0;
+extern const double ymin = 0.0; 
+extern const double ymax = ny * dy;
+
 const double dt = 0.5;
 
-const int numberDensityIon = 100;
-const int numberDensityElectron = 100;
+const int numberDensityIon = 20;
+const int numberDensityElectron = 20;
 
 const int totalNumIon = nx * numberDensityIon;
-//追加
-const int totalNumElectronBeam1 = nx * numberDensityElectron / 2;
-const int totalNumElectronBeam2 = nx * numberDensityElectron / 2;
-const int totalNumElectron = totalNumElectronBeam1 + totalNumElectronBeam2;
+const int totalNumElectron = nx * numberDensityElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
-const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 10.0;
+const double B0 = 1.0;
 
-const double mRatio = 100.0;
+const double mRatio = 1.0;
 const double mElectron = 1.0;
 const double mIon = mRatio * mElectron;
 
-const double tRatio = 100.0;
-const double tElectron = 0.5 * mElectron * pow(0.01 * c, 2);
-const double tIon = tRatio * tElectron;
+const double tRatio = 1.0;
+const double tElectron = 0.5 * mElectron * pow(0.1 * c, 2);
+const double tIon = 0.5 * mIon * pow(0.1 * c, 2);
 
 const double qRatio = -1.0;
 const double qElectron = -1.0 * sqrt(epsilon0 * tElectron / static_cast<double>(numberDensityElectron));
@@ -53,19 +55,15 @@ const double vThElectron = sqrt(2.0 * tElectron / mElectron);
 const double bulkVxIon = 0.0;
 const double bulkVyIon = 0.0;
 const double bulkVzIon = 0.0;
-const double bulkVxElectron = -10.0 * vThIon;
+const double bulkVxElectron = 0.0;
 const double bulkVyElectron = 0.0;
 const double bulkVzElectron = 0.0;
-//追加
-const double bulkVxElectronBeam = 10.0 * vThIon;
-const double bulkVyElectronBeam = 0.0;
-const double bulkVzElectronBeam = 0.0;
 
-const int totalStep = 10000;
+const int totalStep = 3000;
 double totalTime = 0.0;
 
 
-void PIC1D::initialize()
+void PIC2D::initialize()
 {
     initializeParticle.uniformForPositionX(
         0, totalNumIon, 0, particlesIon
@@ -73,38 +71,40 @@ void PIC1D::initialize()
     initializeParticle.uniformForPositionX(
         0, totalNumElectron, 100, particlesElectron
     );
+    initializeParticle.uniformForPositionY(
+        0, totalNumElectron, 200, particlesElectron
+    );
+    initializeParticle.uniformForPositionY(
+        0, totalNumElectron, 300, particlesElectron
+    );
     for (int i = 0; i < totalNumIon; i++) {
-        particlesIon[i].y = 0.0;
         particlesIon[i].z = 0.0;
     }
     for (int i = 0; i < totalNumElectron; i++) {
-        particlesElectron[i].y = 0.0;
         particlesElectron[i].z = 0.0;
     }
 
     initializeParticle.maxwellDistributionForVelocity(
-        bulkVxIon, bulkVyIon, bulkVzIon, vThIon, 
-        0, totalNumIon, 200, particlesIon
+        bulkVxIon, bulkVyIon, bulkVzIon, vThIon, vThIon, 5.0 * vThIon, 
+        0, totalNumIon, 400, particlesIon
     );
     initializeParticle.maxwellDistributionForVelocity(
-        bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, 
-        0, totalNumElectronBeam1, 300, particlesElectron
-    );
-    initializeParticle.maxwellDistributionForVelocity(
-        bulkVxElectronBeam, bulkVyElectronBeam, bulkVzElectronBeam, vThElectron, 
-        totalNumElectronBeam1, totalNumElectron, 400, particlesElectron
+        bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, vThElectron, 5.0 * vThElectron, 
+        0, totalNumElectron, 500, particlesElectron
     );
 
     for (int i = 0; i < nx; i++) {
-        B[0][i] = B0;
-        B[1][i] = 0.0;
-        B[2][i] = 0.0;
-        E[0][i] = 0.0;
-        E[1][i] = 0.0;
-        E[2][i] = 0.0;
-        current[0][i] = 0.0;
-        current[1][i] = 0.0;
-        current[2][i] = 0.0;
+        for (int j = 0; j < ny; j++) {
+            B[0][i][j] = 0.0;
+            B[1][i][j] = 0.0;
+            B[2][i][j] = 0.0;
+            E[0][i][j] = 0.0;
+            E[1][i][j] = 0.0;
+            E[2][i][j] = 0.0;
+            current[0][i][j] = 0.0;
+            current[1][i][j] = 0.0;
+            current[2][i][j] = 0.0;
+        }
     }
 }
 

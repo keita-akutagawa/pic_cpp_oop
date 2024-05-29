@@ -25,8 +25,8 @@ const double dt = 0.5;
 const int numberDensityIon = 20;
 const int numberDensityElectron = 20;
 
-const int totalNumIon = nx * numberDensityIon;
-const int totalNumElectron = nx * numberDensityElectron;
+const int totalNumIon = nx * ny * numberDensityIon;
+const int totalNumElectron = nx * ny * numberDensityElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
 const double B0 = 1.0;
@@ -130,12 +130,12 @@ int main()
                       << std::setprecision(4) << totalTime
                       << std::endl;
             logfile << std::setprecision(6) << totalTime << std::endl;
-            pIC2D.saveFields(
-                directoryname, filenameWithoutStep, step
-            );
-            pIC2D.saveParticle(
-                directoryname, filenameWithoutStep, step
-            );
+            //pIC2D.saveFields(
+            //    directoryname, filenameWithoutStep, step
+            //);
+            //pIC2D.saveParticle(
+            //    directoryname, filenameWithoutStep, step
+            //);
         }
 
         pIC2D.oneStep();

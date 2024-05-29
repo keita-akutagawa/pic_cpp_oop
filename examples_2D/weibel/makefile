@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++20 -Wall -pedantic-errors -O3 -mtune=native -march=native
+CFLAGS = -g -std=c++20 -Wall -pedantic-errors -O3 -mtune=native -march=native
 SRCDIR = ../../lib_pic2D_cpp_oop
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(SRCDIR)/%.o, $(SOURCES))

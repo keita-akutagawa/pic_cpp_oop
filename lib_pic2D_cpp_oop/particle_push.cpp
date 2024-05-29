@@ -5,8 +5,8 @@
 void ParticlePush::pushVelocity(
     std::vector<Particle>& particlesIon, 
     std::vector<Particle>& particlesElectron, 
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& E, 
+    const std::vector<std::vector<std::vector<double>>>& B, 
+    const std::vector<std::vector<std::vector<double>>>& E, 
     double dt
 )
 {
@@ -36,8 +36,8 @@ void ParticlePush::pushPosition(
 
 void ParticlePush::pushVelocityOfOneSpecies(
     std::vector<Particle>& particlesSpecies, 
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& E,     
+    const std::vector<std::vector<std::vector<double>>>& B, 
+    const std::vector<std::vector<std::vector<double>>>& E,     
     double q, double m, int totalNumSpecies, 
     double dt
 )
@@ -109,8 +109,8 @@ void ParticlePush::pushVelocityOfOneSpecies(
 
 
 inline ParticleField ParticlePush::getParticleFields(
-    const std::vector<std::vector<double>>& B, 
-    const std::vector<std::vector<double>>& E, 
+    const std::vector<std::vector<std::vector<double>>>& B, 
+    const std::vector<std::vector<std::vector<double>>>& E, 
     const Particle& particle
 )
 {
@@ -118,35 +118,54 @@ inline ParticleField ParticlePush::getParticleFields(
     ParticleField particleField;
 
     double cx1, cx2, xIndex1, xIndex2;
-    double xOverDx;
+    double cy1, cy2, yIndex1, yIndex2;
+    double xOverDx, yOverDy;
 
     xOverDx = particle.x / dx;
+    yOverDy = particle.y / dy;
 
     xIndex1 = std::floor(xOverDx);
     xIndex2 = xIndex1 + 1;
     xIndex2 = (xIndex2 == nx) ? 0 : xIndex2;
+    yIndex1 = std::floor(yOverDy);
+    yIndex2 = yIndex1 + 1;
+    yIndex2 = (yIndex2 == ny) ? 0 : yIndex2;
 
     cx1 = xOverDx - xIndex1;
     cx2 = 1.0 - cx1;
+    cy1 = yOverDy - yIndex1;
+    cy2 = 1.0 - cy1;
 
 
-    particleField.bx += B[0][xIndex1] * cx2;
-    particleField.bx += B[0][xIndex2] * cx1;
+    particleField.bx += B[0][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.bx += B[0][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.bx += B[0][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.bx += B[0][xIndex2][yIndex2] * cx1 * cy1;
 
-    particleField.by += B[1][xIndex1] * cx2;
-    particleField.by += B[1][xIndex2] * cx1;
+    particleField.by += B[1][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.by += B[1][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.by += B[1][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.by += B[1][xIndex2][yIndex2] * cx1 * cy1;
 
-    particleField.bz += B[2][xIndex1] * cx2;
-    particleField.bz += B[2][xIndex2] * cx1;
+    particleField.bz += B[2][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.bz += B[2][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.bz += B[2][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.bz += B[2][xIndex2][yIndex2] * cx1 * cy1;
 
-    particleField.ex += E[0][xIndex1] * cx2;
-    particleField.ex += E[0][xIndex2] * cx1;
+    particleField.ex += E[0][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.ex += E[0][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.ex += E[0][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.ex += E[0][xIndex2][yIndex2] * cx1 * cy1;
 
-    particleField.ey += E[1][xIndex1] * cx2;
-    particleField.ey += E[1][xIndex2] * cx1;
+    particleField.ey += E[1][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.ey += E[1][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.ey += E[1][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.ey += E[1][xIndex2][yIndex2] * cx1 * cy1;
 
-    particleField.ez += E[2][xIndex1] * cx2;
-    particleField.ez += E[2][xIndex2] * cx1;
+    particleField.ez += E[2][xIndex1][yIndex1] * cx2 * cy2;
+    particleField.ez += E[2][xIndex2][yIndex1] * cx1 * cy2;
+    particleField.ez += E[2][xIndex1][yIndex2] * cx2 * cy1;
+    particleField.ez += E[2][xIndex2][yIndex2] * cx1 * cy1;
 
 
     return particleField;

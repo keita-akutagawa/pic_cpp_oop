@@ -17,15 +17,29 @@ public:
         std::vector<Particle>& particlesIon,
         std::vector<Particle>& particlesElectron
     );
+    void periodicBoundaryParticleY(
+        std::vector<Particle>& particlesIon,
+        std::vector<Particle>& particlesElectron
+    );
+    void conductingWallBoundaryParticleY(
+        std::vector<Particle>& particlesIon,
+        std::vector<Particle>& particlesElectron
+    );
 
     void periodicBoundaryBX();
     void conductingWallBoundaryBX();
+    void periodicBoundaryBY();
+    void conductingWallBoundaryBY();
 
     void periodicBoundaryEX();
     void conductingWallBoundaryEX();
+    void periodicBoundaryEY();
+    void conductingWallBoundaryEY();
 
     void periodicBoundaryCurrentX();
     void conductingWallBoundaryCurrentX();
+    void periodicBoundaryCurrentY();
+    void conductingWallBoundaryCurrentY();
 
 private:
 

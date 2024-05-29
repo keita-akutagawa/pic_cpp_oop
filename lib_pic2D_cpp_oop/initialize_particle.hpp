@@ -15,6 +15,13 @@ public:
         std::vector<Particle>& particlesSpecies
     );
 
+    void uniformForPositionY(
+        int nStart, 
+        int nEnd, 
+        int seed, 
+        std::vector<Particle>& particlesSpecies
+    );
+
     void maxwellDistributionForVelocity(
         double bulkVxSpecies, 
         double bulkVySpecies, 

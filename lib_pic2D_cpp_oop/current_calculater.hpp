@@ -9,11 +9,11 @@ private:
 
 public: 
     void resetCurrent(
-        std::vector<std::vector<double>>& current
+        std::vector<std::vector<std::vector<double>>>& current
     );
 
     void calculateCurrent(
-        std::vector<std::vector<double>>& current, 
+        std::vector<std::vector<std::vector<double>>>& current, 
         const std::vector<Particle>& particlesIon, 
         const std::vector<Particle>& particlesEleectron
     );
@@ -21,7 +21,7 @@ public:
 private:
 
     void calculateCurrentOfOneSpecies(
-        std::vector<std::vector<double>>& current, 
+        std::vector<std::vector<std::vector<double>>>& current, 
         const std::vector<Particle>& particlesSpecies, 
         double q, double totalNumSpecies
     );

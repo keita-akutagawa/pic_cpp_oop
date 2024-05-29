@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iomanip>
-#include "pic1D.hpp"
+#include "pic2D.hpp"
 
 
 void PIC1D::oneStep()

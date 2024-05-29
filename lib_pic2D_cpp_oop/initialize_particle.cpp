@@ -20,6 +20,23 @@ void InitializeParticle::uniformForPositionX(
 }
 
 
+void InitializeParticle::uniformForPositionY(
+    int nStart, 
+    int nEnd, 
+    int seed, 
+    std::vector<Particle>& particlesSpecies
+)
+{
+    std::mt19937_64 mt64(seed);
+    std::uniform_real_distribution<double> set_y(1e-20, 1.0 - 1e-20);
+
+    for (int i = nStart; i < nEnd; i++) {
+        double y = set_y(mt64) * (ymax - ymin);
+        particlesSpecies[i].y = y;
+    }
+}
+
+
 void InitializeParticle::maxwellDistributionForVelocity(
     double bulkVxSpecies, 
     double bulkVySpecies, 

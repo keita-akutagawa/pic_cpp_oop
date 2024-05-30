@@ -117,8 +117,10 @@ inline ParticleField ParticlePush::getParticleFields(
     // 呼び出されるごとにコンストラクタで0.0に初期化されるはず
     ParticleField particleField;
 
-    double cx1, cx2, xIndex1, xIndex2;
-    double cy1, cy2, yIndex1, yIndex2;
+    double cx1, cx2;
+    int xIndex1, xIndex2;
+    double cy1, cy2;
+    int yIndex1, yIndex2;
     double xOverDx, yOverDy;
 
     xOverDx = particle.x / dx;

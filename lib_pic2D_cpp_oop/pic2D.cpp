@@ -6,6 +6,8 @@
 void PIC2D::oneStep()
 {
     fieldSolver.timeEvolutionB(B, E, dt/2.0);
+    boundary.periodicBoundaryBX();
+    boundary.periodicBoundaryBY();
 
     for (int i = 0; i < nx; i++) {
         for (int j = 0; j < ny; j++) {
@@ -29,6 +31,9 @@ void PIC2D::oneStep()
     boundary.periodicBoundaryParticleX(
         particlesIon, particlesElectron
     );
+    boundary.periodicBoundaryParticleY(
+        particlesIon, particlesElectron
+    );
 
     currentCalculater.resetCurrent(tmpCurrent);
     currentCalculater.calculateCurrent(
@@ -43,13 +48,20 @@ void PIC2D::oneStep()
     }
 
     fieldSolver.timeEvolutionB(B, E, dt/2.0);
+    boundary.periodicBoundaryBX();
+    boundary.periodicBoundaryBY();
 
     fieldSolver.timeEvolutionE(E, B, current, dt);
+    boundary.periodicBoundaryEX();
+    boundary.periodicBoundaryEY();
 
     particlePush.pushPosition(
         particlesIon, particlesElectron, dt/2.0
     );
     boundary.periodicBoundaryParticleX(
+        particlesIon, particlesElectron
+    );
+    boundary.periodicBoundaryParticleY(
         particlesIon, particlesElectron
     );
 }

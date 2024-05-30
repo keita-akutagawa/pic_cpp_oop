@@ -12,13 +12,13 @@ const double mu0 = 1.0;
 
 const int nx = 256;
 const double dx = 1.0;
-extern const double xmin = 0.0; 
-extern const double xmax = nx * dx;
+const double xmin = 0.0; 
+const double xmax = nx * dx;
 
 const int ny = 256;
 const double dy = 1.0;
-extern const double ymin = 0.0; 
-extern const double ymax = ny * dy;
+const double ymin = 0.0; 
+const double ymax = ny * dy;
 
 const double dt = 0.5;
 
@@ -72,7 +72,7 @@ void PIC2D::initialize()
         0, totalNumElectron, 100, particlesElectron
     );
     initializeParticle.uniformForPositionY(
-        0, totalNumElectron, 200, particlesElectron
+        0, totalNumIon, 200, particlesIon
     );
     initializeParticle.uniformForPositionY(
         0, totalNumElectron, 300, particlesElectron

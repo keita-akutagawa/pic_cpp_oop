@@ -1,5 +1,6 @@
 #include <cmath>
 #include "current_calculater.hpp"
+#include <iostream>
 
 
 void CurrentCalculater::resetCurrent(
@@ -37,8 +38,10 @@ void CurrentCalculater::calculateCurrentOfOneSpecies(
     double q, double totalNumSpecies
 )
 {
-    double cx1, cx2, xIndex1, xIndex2;
-    double cy1, cy2, yIndex1, yIndex2;
+    double cx1, cx2; 
+    int xIndex1, xIndex2;
+    double cy1, cy2; 
+    int yIndex1, yIndex2;
     double xOverDx, yOverDy;
     double qOverGamma, qVxOverGamma, qVyOverGamma, qVzOverGamma;
 

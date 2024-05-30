@@ -50,8 +50,8 @@ const double omegaCi = qIon * B0 / mIon;
 
 const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numberDensityElectron) / pow(qElectron, 2));
 
-const double vThIon = sqrt(2.0 * tIon / mIon);
-const double vThElectron = sqrt(2.0 * tElectron / mElectron);
+const double vThIon = sqrt(tIon / mIon);
+const double vThElectron = sqrt(tElectron / mElectron);
 const double bulkVxIon = 0.0;
 const double bulkVyIon = 0.0;
 const double bulkVzIon = 0.0;

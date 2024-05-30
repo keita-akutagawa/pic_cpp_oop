@@ -130,9 +130,12 @@ int main()
                       << std::setprecision(4) << totalTime
                       << std::endl;
             logfile << std::setprecision(6) << totalTime << std::endl;
-            //pIC2D.saveFields(
-            //    directoryname, filenameWithoutStep, step
-            //);
+            pIC2D.saveFields(
+                directoryname, filenameWithoutStep, step
+            );
+            pIC2D.saveEnergy(
+                directoryname, filenameWithoutStep, step
+            );
             //pIC2D.saveParticle(
             //    directoryname, filenameWithoutStep, step
             //);

@@ -74,8 +74,6 @@ void PIC2D::saveFields(
 )
 {
     std::string filenameB, filenameE, filenameCurrent;
-    std::string filenameBEnergy, filenameEEnergy;
-    double BEnergy = 0.0, EEnergy = 0.0;
 
     filenameB = directoryname + "/"
              + filenameWithoutStep + "_B_" + std::to_string(step)
@@ -86,12 +84,6 @@ void PIC2D::saveFields(
     filenameCurrent = directoryname + "/"
              + filenameWithoutStep + "_current_" + std::to_string(step)
              + ".txt";
-    filenameBEnergy = directoryname + "/"
-             + filenameWithoutStep + "_BEnergy_" + std::to_string(step)
-             + ".txt";
-    filenameEEnergy = directoryname + "/"
-             + filenameWithoutStep + "_EEnergy_" + std::to_string(step)
-             + ".txt";
 
 
     std::ofstream ofsB(filenameB);
@@ -100,18 +92,14 @@ void PIC2D::saveFields(
         for (int i = 0; i < nx-1; i++) {
             for (int j = 0; j < ny; j++) {
                 ofsB << B[comp][i][j] << ",";
-                BEnergy += B[comp][i][j] * B[comp][i][j];
             }
         }
         for (int j = 0; j < ny-1; j++) {
             ofsB << B[comp][nx - 1][j] << ",";
-            BEnergy += B[comp][nx - 1][j] * B[comp][nx - 1][j];
         }
         ofsB << B[comp][nx - 1][ny - 1];
         ofsB << std::endl;
-        BEnergy += B[comp][nx - 1][ny - 1] * B[comp][nx - 1][ny - 1];
     }
-    BEnergy += 0.5 / mu0;
 
     std::ofstream ofsE(filenameE);
     ofsE << std::setprecision(6);
@@ -119,18 +107,14 @@ void PIC2D::saveFields(
         for (int i = 0; i < nx-1; i++) {
             for (int j = 0; j < ny; j++) {
                 ofsE << E[comp][i][j] << ",";
-                EEnergy += E[comp][i][j] * E[comp][i][j];
             }
         }
         for (int j = 0; j < ny-1; j++) {
             ofsE << E[comp][nx - 1][j] << ",";
-            EEnergy += E[comp][nx - 1][j] * E[comp][nx - 1][j];
         }
         ofsE << E[comp][nx - 1][ny - 1];
         ofsE << std::endl;
-        EEnergy += E[comp][nx - 1][ny - 1] * E[comp][nx - 1][ny - 1];
     }
-    EEnergy *= 0.5 * epsilon0;
 
     std::ofstream ofsCurrent(filenameCurrent);
     ofsCurrent << std::setprecision(6);
@@ -146,14 +130,6 @@ void PIC2D::saveFields(
         ofsCurrent << current[comp][nx - 1][ny - 1];
         ofsCurrent << std::endl;
     }
-
-    std::ofstream ofsBEnergy(filenameBEnergy);
-    ofsBEnergy << std::setprecision(6);
-    ofsBEnergy << BEnergy << std::endl;
-
-    std::ofstream ofsEEnergy(filenameEEnergy);
-    ofsEEnergy << std::setprecision(6);
-    ofsEEnergy << EEnergy << std::endl;
 }
 
 
@@ -165,8 +141,7 @@ void PIC2D::saveParticle(
 {
     std::string filenameXIon, filenameXElectron;
     std::string filenameVIon, filenameVElectron;
-    std::string filenameKineticEnergy;
-    double vx, vy, vz, KineticEnergy = 0.0;
+    double vx, vy, vz;
 
     filenameXIon = directoryname + "/"
              + filenameWithoutStep + "_x_ion_" + std::to_string(step)
@@ -179,9 +154,6 @@ void PIC2D::saveParticle(
              + ".txt";
     filenameVElectron = directoryname + "/"
              + filenameWithoutStep + "_v_electron_" + std::to_string(step)
-             + ".txt";
-    filenameKineticEnergy = directoryname + "/"
-             + filenameWithoutStep + "_KE_" + std::to_string(step)
              + ".txt";
 
 
@@ -207,12 +179,9 @@ void PIC2D::saveParticle(
         vx = particlesIon[i].vx;
         vy = particlesIon[i].vy;
         vz = particlesIon[i].vz;
-
         ofsVIon << vx << "," 
                 << vy << "," 
                 << vz << std::endl;
-
-        KineticEnergy += 0.5 * mIon * (vx * vx + vy * vy + vz * vz);
     }
 
     std::ofstream ofsVElectron(filenameVElectron);
@@ -221,11 +190,74 @@ void PIC2D::saveParticle(
         vx = particlesElectron[i].vx;
         vy = particlesElectron[i].vy;
         vz = particlesElectron[i].vz;
-
         ofsVElectron << vx << "," 
                      << vy << "," 
                      << vz << std::endl;
-        
+    }
+}
+
+
+void PIC2D::saveEnergy(
+    std::string directoryname, 
+    std::string filenameWithoutStep, 
+    int step
+)
+{
+    std::string filenameBEnergy, filenameEEnergy;
+     std::string filenameKineticEnergy;
+    double BEnergy = 0.0, EEnergy = 0.0;
+    double vx, vy, vz, KineticEnergy = 0.0;
+
+    filenameBEnergy = directoryname + "/"
+             + filenameWithoutStep + "_BEnergy_" + std::to_string(step)
+             + ".txt";
+    filenameEEnergy = directoryname + "/"
+             + filenameWithoutStep + "_EEnergy_" + std::to_string(step)
+             + ".txt";
+    filenameKineticEnergy = directoryname + "/"
+             + filenameWithoutStep + "_KE_" + std::to_string(step)
+             + ".txt";
+    
+    for (int comp = 0; comp < 3; comp++) {
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
+                BEnergy += B[comp][i][j] * B[comp][i][j];
+            }
+        }
+    }
+
+    BEnergy += 0.5 / mu0;
+
+    std::ofstream ofsBEnergy(filenameBEnergy);
+    ofsBEnergy << std::setprecision(6);
+    ofsBEnergy << BEnergy << std::endl;
+
+
+    for (int comp = 0; comp < 3; comp++) {
+        for (int i = 0; i < nx; i++) {
+            for (int j = 0; j < ny; j++) {
+                EEnergy += E[comp][i][j] * E[comp][i][j];
+            }
+        }
+    }
+
+    EEnergy *= 0.5 * epsilon0;
+
+    std::ofstream ofsEEnergy(filenameEEnergy);
+    ofsEEnergy << std::setprecision(6);
+    ofsEEnergy << EEnergy << std::endl;
+
+
+    for (int i = 0; i < totalNumIon; i++) {
+        vx = particlesIon[i].vx;
+        vy = particlesIon[i].vy;
+        vz = particlesIon[i].vz;
+        KineticEnergy += 0.5 * mIon * (vx * vx + vy * vy + vz * vz);
+    }
+    for (int i = 0; i < totalNumElectron; i++) {
+        vx = particlesElectron[i].vx;
+        vy = particlesElectron[i].vy;
+        vz = particlesElectron[i].vz;
         KineticEnergy += 0.5 * mElectron * (vx * vx + vy * vy + vz * vz);
     }
 

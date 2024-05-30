@@ -54,6 +54,12 @@ public:
         int step
     );
 
+    void saveEnergy(
+        std::string directoryname, 
+        std::string filenameWithoutStep, 
+        int step
+    );
+
 private:
 
 };

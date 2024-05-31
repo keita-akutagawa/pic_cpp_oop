@@ -77,3 +77,31 @@ void InitializeParticle::maxwellDistributionForVelocity(
     }
 }
 
+
+void InitializeParticle::harrisForPositionY(
+    int nStart, 
+    int nEnd, 
+    int seed, 
+    std::vector<Particle>& particlesSpecies, 
+    double sheatThickness
+)
+{
+    std::mt19937_64 mt64(seed);
+    std::uniform_real_distribution<double> set_y(1e-20, 1.0 - 1e-20);
+
+    for (int i = nStart; i < nEnd; i++) {
+        while (true)
+        {
+            double random_value = set_y(mt64);
+            double yPosition = random_value * (ymax - ymin);
+            double yCenter = 0.5 * (ymin + ymax);
+            double rand_pn = set_y(mt64);
+
+            if (rand_pn < (1.0 - 1.0 / cosh((yPosition - yCenter) / sheatThickness))) {
+                particlesSpecies[i].y = yPosition;
+                break;
+            }
+        }
+    }
+}
+

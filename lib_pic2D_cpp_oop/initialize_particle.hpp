@@ -35,6 +35,14 @@ public:
         std::vector<Particle>& particlesSpecies
     );
 
+    void harrisForPositionY(
+        int nStart, 
+        int nEnd, 
+        int seed, 
+        std::vector<Particle>& particlesSpecies, 
+        double sheatThickness
+    );
+
 private:
 
 };

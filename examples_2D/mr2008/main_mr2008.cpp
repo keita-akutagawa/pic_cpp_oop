@@ -49,20 +49,35 @@ const double ymax = ny * dy;
 
 const double dt = 0.5;
 
-const int totalNumIon = nx * ny * numberDensityIon;
-const int totalNumElectron = nx * ny * numberDensityElectron;
+//追加
+const double sheatThickness = 1.0 * ionInertialLength;
+
+//追加
+const int harrisNumIon = nx * numberDensityIon * 2.0 * sheatThickness;
+const int backgroundNumIon = 0.2 * nx * ny * numberDensityIon;
+const int totalNumIon = harrisNumIon + backgroundNumIon;
+const int harrisNumElectron = nx * numberDensityElectron * 2.0 * sheatThickness;
+const int backgroundNumElectron = 0.2 * nx * ny * numberDensityElectron;
+const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
-const double vThIon = sqrt(tIon / mIon);
-const double vThElectron = sqrt(tElectron / mElectron);
-const double bulkVxIon = 0.0;
-const double bulkVyIon = 0.0;
-const double bulkVzIon = 0.0;
+const double vThIon = sqrt(2.0 * tIon / mIon);
+const double vThElectron = sqrt(2.0 * tElectron / mElectron);
 const double bulkVxElectron = 0.0;
 const double bulkVyElectron = 0.0;
-const double bulkVzElectron = 0.0;
+const double bulkVzElectron = c * debyeLength / sheatThickness * sqrt(2 / (1.0 + 1.0/tRatio));
+const double bulkVxIon = -bulkVxElectron / tRatio;
+const double bulkVyIon = -bulkVyElectron / tRatio;
+const double bulkVzIon = -bulkVzElectron / tRatio;
 
-const double sheatThickness = 1.0 * ionInertialLength;
+const double vThIonB = sqrt(2.0 * tIon / 10.0 / mIon);
+const double vThElectronB = sqrt(2.0 * tElectron / 10.0 / mElectron);
+const double bulkVxElectronB = 0.0;
+const double bulkVyElectronB = 0.0;
+const double bulkVzElectronB = 0.0;
+const double bulkVxIonB = 0.0;
+const double bulkVyIonB = 0.0;
+const double bulkVzIonB = 0.0;
 
 const int totalStep = 500;
 double totalTime = 0.0;
@@ -76,12 +91,20 @@ void PIC2DSymXConY::initialize()
     initializeParticle.uniformForPositionX(
         0, totalNumElectron, 100, particlesElectron
     );
-    initializeParticle.uniformForPositionY(
-        0, totalNumIon, 200, particlesIon
+
+    initializeParticle.harrisForPositionY(
+        0, harrisNumIon, 200, particlesIon, sheatThickness
     );
     initializeParticle.uniformForPositionY(
-        0, totalNumElectron, 300, particlesElectron
+        harrisNumIon, totalNumIon, 300, particlesIon
     );
+    initializeParticle.harrisForPositionY(
+        0, harrisNumElectron, 400, particlesElectron, sheatThickness
+    );
+    initializeParticle.uniformForPositionY(
+        harrisNumElectron, totalNumElectron, 500, particlesElectron
+    );
+
     for (int i = 0; i < totalNumIon; i++) {
         particlesIon[i].z = 0.0;
     }
@@ -91,11 +114,19 @@ void PIC2DSymXConY::initialize()
 
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxIon, bulkVyIon, bulkVzIon, vThIon, vThIon, vThIon, 
-        0, totalNumIon, 400, particlesIon
+        0, harrisNumIon, 600, particlesIon
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxIonB, bulkVyIonB, bulkVzIonB, vThIonB, vThIonB, vThIonB, 
+        harrisNumIon, totalNumIon, 700, particlesIon
     );
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, vThElectron, vThElectron, 
-        0, totalNumElectron, 500, particlesElectron
+        0, harrisNumElectron, 800, particlesElectron
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxElectronB, bulkVyElectronB, bulkVzElectronB, vThElectronB, vThElectronB, vThElectronB, 
+        harrisNumElectron, totalNumElectron, 900, particlesElectron
     );
 
     for (int i = 0; i < nx; i++) {
@@ -103,7 +134,7 @@ void PIC2DSymXConY::initialize()
             double yCenter = 0.5 * (ymax - ymin);
             B[0][i][j] = B0 * tanh((j * dy - yCenter) / sheatThickness);
             B[1][i][j] = 0.0;
-            B[2][i][j] = -B0 / cosh((j * dy - yCenter) / sheatThickness);
+            B[2][i][j] = 0.0;
             E[0][i][j] = 0.0;
             E[1][i][j] = 0.0;
             E[2][i][j] = 0.0;

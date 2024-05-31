@@ -5,6 +5,7 @@
 #include "particle_push.hpp"
 #include "field_solver.hpp"
 #include "current_calculater.hpp"
+#include "filter.hpp"
 #include "boundary.hpp"
 
 
@@ -31,6 +32,7 @@ private:
     ParticlePush particlePush;
     FieldSolver fieldSolver;
     CurrentCalculater currentCalculater;
+    Filter filter;
     Boundary boundary;
 
 public:
@@ -51,6 +53,7 @@ public:
         secondMomentIon(9, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 
         secondMomentElectron(9, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0)))
         {}
+    
     
     virtual void initialize();
     

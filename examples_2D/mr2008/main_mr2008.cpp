@@ -39,13 +39,13 @@ const double ionInertialLength = c / omegaPi;
 
 const int nx = int(60 * ionInertialLength);
 const double dx = 1.0;
-const double xmin = 0.0; 
-const double xmax = nx * dx;
+const double xmin = 0.5 * dx; 
+const double xmax = nx * dx - 1.0 * dx;
 
 const int ny = int(30 * ionInertialLength);
 const double dy = 1.0;
-const double ymin = 0.0; 
-const double ymax = ny * dy;
+const double ymin = 0.5 * dy; 
+const double ymax = ny * dy - 1.0 * dy;
 
 const double dt = 0.5;
 
@@ -78,9 +78,6 @@ const double bulkVzElectronB = 0.0;
 const double bulkVxIonB = 0.0;
 const double bulkVyIonB = 0.0;
 const double bulkVzIonB = 0.0;
-
-const int totalStep = 500;
-double totalTime = 0.0;
 
 
 void PIC2DSymXConY::initialize()
@@ -146,12 +143,17 @@ void PIC2DSymXConY::initialize()
 }
 
 
+//-------------------------------------------------------------
+
+const int totalStep = 1000;
+const int recordStep = 100;
+double totalTime = 0.0;
+
 int main()
 {
     std::string directoryname = "results";
     std::string filenameWithoutStep = "mr2008_forcefree";
     std::ofstream logfile("log.txt");
-    int recordStep = 100;
 
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;

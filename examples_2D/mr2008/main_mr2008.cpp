@@ -51,6 +51,8 @@ const double dt = 0.5;
 
 //追加
 const double sheatThickness = 1.0 * ionInertialLength;
+const double reconnectionTriggerRatio = 0.1;
+const double xPointPosition = 20.0 * ionInertialLength;
 
 //追加
 const int harrisNumIon = int(nx * numberDensityIon * 2.0 * sheatThickness);
@@ -140,6 +142,20 @@ void PIC2DSymXConY::initialize()
             current[2][i][j] = 0.0;
         }
     }
+
+    // reconnection trigger
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            double yCenter = 0.5 * (ymax - ymin);
+            B[0][i][j] += -B0 * reconnectionTriggerRatio * (j * dy - yCenter) / sheatThickness
+                        * exp(-(pow((i * dx - xPointPosition), 2) + pow((j * dy - yCenter), 2))
+                        / pow(2.0 * sheatThickness, 2));
+            B[1][i][j] += B0 * reconnectionTriggerRatio * (i * dx - xPointPosition) / sheatThickness
+                        * exp(-(pow((i * dx - xPointPosition), 2) + pow((j * dy - yCenter), 2))
+                        / pow(2.0 * sheatThickness, 2));  
+            B[2][i][j] = 0.0;
+        }
+    }
 }
 
 
@@ -152,7 +168,7 @@ double totalTime = 0.0;
 int main()
 {
     std::string directoryname = "results";
-    std::string filenameWithoutStep = "mr2008_forcefree";
+    std::string filenameWithoutStep = "mr2008";
     std::ofstream logfile("log.txt");
 
     std::cout << "total number of partices is " << totalNumParticles << std::endl;

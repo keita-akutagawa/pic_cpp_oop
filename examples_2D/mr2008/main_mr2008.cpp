@@ -37,7 +37,7 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(100 * ionInertialLength);
+const int nx = int(30 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.0; 
 const double xmax = nx * dx;
@@ -62,7 +62,9 @@ const double bulkVxElectron = 0.0;
 const double bulkVyElectron = 0.0;
 const double bulkVzElectron = 0.0;
 
-const int totalStep = 100;
+const double sheatThickness = 1.0 * ionInertialLength;
+
+const int totalStep = 500;
 double totalTime = 0.0;
 
 
@@ -98,9 +100,10 @@ void PIC2DSymXConY::initialize()
 
     for (int i = 0; i < nx; i++) {
         for (int j = 0; j < ny; j++) {
-            B[0][i][j] = 0.0;
+            double yCenter = 0.5 * (ymax - ymin);
+            B[0][i][j] = B0 * tanh((j * dy - yCenter) / sheatThickness);
             B[1][i][j] = 0.0;
-            B[2][i][j] = 0.0;
+            B[2][i][j] = -B0 / cosh((j * dy - yCenter) / sheatThickness);
             E[0][i][j] = 0.0;
             E[1][i][j] = 0.0;
             E[2][i][j] = 0.0;
@@ -122,7 +125,7 @@ int main()
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;
     std::cout << std::setprecision(4) 
-              << "omega_pe * t = " << totalStep * dt * omegaPe << std::endl;
+              << "omega_ci * t = " << totalStep * dt * omegaCi << std::endl;
 
     PIC2DSymXConY pIC2DSymXConY;
 

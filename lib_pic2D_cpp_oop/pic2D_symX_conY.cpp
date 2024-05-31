@@ -21,6 +21,10 @@ void PIC2DSymXConY::oneStep()
             tmpE[2][i][j] = E[2][i][j];
         }
     }
+    boundary.symmetricWallBoundaryBX(tmpB);
+    boundary.conductingWallBoundaryBY(tmpB);
+    boundary.symmetricWallBoundaryEX(tmpE);
+    boundary.conductingWallBoundaryEY(tmpE);
 
     particlePush.pushVelocity(
         particlesIon, particlesElectron, tmpB, tmpE, dt
@@ -61,10 +65,10 @@ void PIC2DSymXConY::oneStep()
     particlePush.pushPosition(
         particlesIon, particlesElectron, dt/2.0
     );
-    boundary.periodicBoundaryParticleX(
+    boundary.conductingWallBoundaryParticleX(
         particlesIon, particlesElectron
     );
-    boundary.periodicBoundaryParticleY(
+    boundary.conductingWallBoundaryParticleY(
         particlesIon, particlesElectron
     );
 }

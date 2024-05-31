@@ -138,13 +138,16 @@ void Boundary::conductingWallBoundaryBY(
 )
 {
     for (int i = 0; i < nx; i++) {
-        B[0][i][0] = B[0][i][1];
-        B[0][i][ny - 1] = B[0][i][ny - 2];
         B[1][i][0] = 0.0;
         B[1][i][1] = 0.0;
         B[1][i][ny - 1] = 0.0;
         B[2][i][0] = B[2][i][1];
         B[2][i][ny - 1] = B[2][i][ny - 2];
+    }
+    for (int i = 0; i < nx-1; i++) {
+        B[0][i+1][0] = -(B[1][i][1] - B[1][i][0]) / dy * dx + B[0][i][0];
+        B[0][i+1][ny-2] = -(B[1][i][ny-1] - B[1][i][ny-2]) / dy * dx + B[0][i][ny-2];
+        B[0][i+1][ny-1] = -(0.0 - B[1][i][ny-1]) / dy * dx + B[0][i][ny-1];
     }
 }
 
@@ -158,8 +161,10 @@ void Boundary::symmetricWallBoundaryBX(
         B[0][nx - 1][j] = B[0][nx - 2][j];
         B[1][0][j] = 0.0;
         B[1][nx - 1][j] = 0.0;
+        B[1][nx - 2][j] = 0.0;
         B[2][0][j] = 0.0;
         B[2][nx - 1][j] = 0.0;
+        B[2][nx - 2][j] = 0.0;
     }
 }
 
@@ -199,13 +204,13 @@ void Boundary::conductingWallBoundaryEY(
 )
 {
     for (int i = 0; i < nx; i++) {
-        E[0][i][0] = E[0][i][1];
-        E[0][i][ny - 1] = E[0][i][ny - 2];
+        E[0][i][0] = 0.0;
+        E[0][i][ny - 1] = 0.0;
         E[1][i][0] = 0.0;
         E[1][i][ny - 1] = 0.0;
         E[1][i][ny - 2] = 0.0;
-        E[2][i][0] = E[2][i][1];
-        E[2][i][ny - 1] = E[2][i][ny - 2];
+        E[2][i][0] = 0.0;
+        E[2][i][ny - 1] = 0.0;
     }
 }
 
@@ -276,7 +281,7 @@ void Boundary::symmetricWallBoundaryCurrentX(
     for (int comp = 0; comp < 3; comp++) {
         for (int j = 0; j < ny; j++) {
             current[comp][0][j] = current[comp][1][j];
-            current[comp][ny - 1][j] = current[comp][ny - 2][j];
+            current[comp][nx - 1][j] = current[comp][nx - 2][j];
         }
     }
 }

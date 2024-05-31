@@ -26,7 +26,7 @@ void PIC2DSymXConY::oneStep()
     boundary.symmetricWallBoundaryEX(tmpE);
     boundary.conductingWallBoundaryEY(tmpE);
 
-    particlePush.pushVelocity(
+    particlePush.pushVelocityForWallBoundary(
         particlesIon, particlesElectron, tmpB, tmpE, dt
     );
 
@@ -41,7 +41,7 @@ void PIC2DSymXConY::oneStep()
     );
 
     currentCalculater.resetCurrent(tmpCurrent);
-    currentCalculater.calculateCurrent(
+    currentCalculater.calculateCurrentForWallBoundary(
         tmpCurrent, particlesIon, particlesElectron
     );
     for (int i = 0; i < nx; i++) {

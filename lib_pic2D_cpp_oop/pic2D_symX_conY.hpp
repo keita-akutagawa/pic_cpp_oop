@@ -19,6 +19,7 @@ private:
     std::vector<std::vector<std::vector<double>>> tmpE;
     std::vector<std::vector<std::vector<double>>> tmpB;
     std::vector<std::vector<std::vector<double>>> tmpCurrent;
+    std::vector<std::vector<double>> F;
     std::vector<std::vector<double>> zerothMomentIon;
     std::vector<std::vector<double>> zerothMomentElectron;
     std::vector<std::vector<std::vector<double>>> firstMomentIon;
@@ -41,7 +42,8 @@ public:
         current(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 
         tmpE(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 
         tmpB(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 
-        tmpCurrent(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))), 
+        tmpCurrent(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))),
+        F(nx, std::vector<double>(ny, 0.0)),
         zerothMomentIon(nx, std::vector<double>(ny, 0.0)),
         zerothMomentElectron(nx, std::vector<double>(ny, 0.0)), 
         firstMomentIon(3, std::vector<std::vector<double>>(nx, std::vector<double>(ny, 0.0))),

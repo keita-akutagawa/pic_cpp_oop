@@ -12,7 +12,13 @@ public:
         std::vector<std::vector<std::vector<double>>>& current
     );
 
-    void calculateCurrent(
+    void calculateCurrentForPeriodicBoundary(
+        std::vector<std::vector<std::vector<double>>>& current, 
+        const std::vector<Particle>& particlesIon, 
+        const std::vector<Particle>& particlesEleectron
+    );
+
+    void calculateCurrentForWallBoundary(
         std::vector<std::vector<std::vector<double>>>& current, 
         const std::vector<Particle>& particlesIon, 
         const std::vector<Particle>& particlesEleectron
@@ -20,7 +26,13 @@ public:
 
 private:
 
-    void calculateCurrentOfOneSpecies(
+    void calculateCurrentOfOneSpeciesForPeriodicBoundary(
+        std::vector<std::vector<std::vector<double>>>& current, 
+        const std::vector<Particle>& particlesSpecies, 
+        double q, int totalNumSpecies
+    );
+
+    void calculateCurrentOfOneSpeciesForWallBoundary(
         std::vector<std::vector<std::vector<double>>>& current, 
         const std::vector<Particle>& particlesSpecies, 
         double q, int totalNumSpecies

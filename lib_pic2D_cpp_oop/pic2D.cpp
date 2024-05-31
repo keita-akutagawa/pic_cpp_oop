@@ -21,7 +21,7 @@ void PIC2D::oneStep()
         }
     }
 
-    particlePush.pushVelocity(
+    particlePush.pushVelocityForPeriodicBoundary(
         particlesIon, particlesElectron, tmpB, tmpE, dt
     );
 
@@ -36,7 +36,7 @@ void PIC2D::oneStep()
     );
 
     currentCalculater.resetCurrent(tmpCurrent);
-    currentCalculater.calculateCurrent(
+    currentCalculater.calculateCurrentForPeriodicBoundary(
         tmpCurrent, particlesIon, particlesElectron
     );
     for (int i = 0; i < nx; i++) {

@@ -161,7 +161,7 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 1000;
+const int totalStep = 2000;
 const int recordStep = 100;
 double totalTime = 0.0;
 

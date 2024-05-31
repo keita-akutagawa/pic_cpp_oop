@@ -37,7 +37,7 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(30 * ionInertialLength);
+const int nx = int(60 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.0; 
 const double xmax = nx * dx;
@@ -53,11 +53,11 @@ const double dt = 0.5;
 const double sheatThickness = 1.0 * ionInertialLength;
 
 //追加
-const int harrisNumIon = nx * numberDensityIon * 2.0 * sheatThickness;
-const int backgroundNumIon = 0.2 * nx * ny * numberDensityIon;
+const int harrisNumIon = int(nx * numberDensityIon * 2.0 * sheatThickness);
+const int backgroundNumIon = int(0.2 * nx * ny * numberDensityIon);
 const int totalNumIon = harrisNumIon + backgroundNumIon;
-const int harrisNumElectron = nx * numberDensityElectron * 2.0 * sheatThickness;
-const int backgroundNumElectron = 0.2 * nx * ny * numberDensityElectron;
+const int harrisNumElectron = int(nx * numberDensityElectron * 2.0 * sheatThickness);
+const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron);
 const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
@@ -155,6 +155,8 @@ int main()
 
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;
+    std::cout << "sheat thickness is " 
+              << std::setprecision(4) << sheatThickness << "[debye length]" << std::endl;
     std::cout << std::setprecision(4) 
               << "omega_ci * t = " << totalStep * dt * omegaCi << std::endl;
 

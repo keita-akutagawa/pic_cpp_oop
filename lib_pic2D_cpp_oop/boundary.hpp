@@ -13,11 +13,11 @@ public:
         std::vector<Particle>& particlesIon,
         std::vector<Particle>& particlesElectron
     );
-    void conductingWallBoundaryParticleX(
+    void periodicBoundaryParticleY(
         std::vector<Particle>& particlesIon,
         std::vector<Particle>& particlesElectron
     );
-    void periodicBoundaryParticleY(
+    void conductingWallBoundaryParticleX(
         std::vector<Particle>& particlesIon,
         std::vector<Particle>& particlesElectron
     );
@@ -27,19 +27,25 @@ public:
     );
 
     void periodicBoundaryBX();
-    void conductingWallBoundaryBX();
     void periodicBoundaryBY();
-    void conductingWallBoundaryBY();
+    void conductingWallBoundaryBX(std::vector<std::vector<std::vector<double>>>& B);
+    void conductingWallBoundaryBY(std::vector<std::vector<std::vector<double>>>& B);
+    void symmetricWallBoundaryBX(std::vector<std::vector<std::vector<double>>>& B);
+    void symmetricWallBoundaryBY(std::vector<std::vector<std::vector<double>>>& B);
 
     void periodicBoundaryEX();
-    void conductingWallBoundaryEX();
     void periodicBoundaryEY();
-    void conductingWallBoundaryEY();
+    void conductingWallBoundaryEX(std::vector<std::vector<std::vector<double>>>& E);
+    void conductingWallBoundaryEY(std::vector<std::vector<std::vector<double>>>& E);
+    void symmetricWallBoundaryEX(std::vector<std::vector<std::vector<double>>>& E);
+    void symmetricWallBoundaryEY(std::vector<std::vector<std::vector<double>>>& E);
 
     void periodicBoundaryCurrentX();
-    void conductingWallBoundaryCurrentX();
     void periodicBoundaryCurrentY();
-    void conductingWallBoundaryCurrentY();
+    void conductingWallBoundaryCurrentX(std::vector<std::vector<std::vector<double>>>& current);
+    void conductingWallBoundaryCurrentY(std::vector<std::vector<std::vector<double>>>& current);
+    void symmetricWallBoundaryCurrentX(std::vector<std::vector<std::vector<double>>>& current);
+    void symmetricWallBoundaryCurrentY(std::vector<std::vector<std::vector<double>>>& current);
 
 private:
 

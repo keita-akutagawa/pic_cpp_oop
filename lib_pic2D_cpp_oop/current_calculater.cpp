@@ -35,7 +35,7 @@ void CurrentCalculater::calculateCurrent(
 void CurrentCalculater::calculateCurrentOfOneSpecies(
     std::vector<std::vector<std::vector<double>>>& current, 
     const std::vector<Particle>& particlesSpecies,  
-    double q, double totalNumSpecies
+    double q, int totalNumSpecies
 )
 {
     double cx1, cx2; 

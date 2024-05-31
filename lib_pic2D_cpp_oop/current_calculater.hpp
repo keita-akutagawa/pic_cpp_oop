@@ -23,7 +23,7 @@ private:
     void calculateCurrentOfOneSpecies(
         std::vector<std::vector<std::vector<double>>>& current, 
         const std::vector<Particle>& particlesSpecies, 
-        double q, double totalNumSpecies
+        double q, int totalNumSpecies
     );
 };
 

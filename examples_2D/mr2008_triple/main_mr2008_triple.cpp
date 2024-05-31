@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-#include "../../lib_pic2D_cpp_oop/pic2D_symX_conY.hpp"
+#include "../../lib_pic2D_cpp_oop_triple_components/pic2D_symX_conY.hpp"
 
 
 const double c = 1.0;
@@ -12,21 +12,25 @@ const double mu0 = 1.0;
 
 const int numberDensityIon = 10;
 const int numberDensityElectron = 10;
+const int numberDensityHeavyIon = 2;
 
 const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 1.0;
 
 const double mRatio = 9.0;
 const double mElectron = 1.0;
 const double mIon = mRatio * mElectron;
+const double mHeavyIon = mIon * 100;
 
 
 const double tRatio = 1.0;
 const double tElectron = (B0 * B0 / 2.0 / mu0) / (numberDensityIon + numberDensityElectron * tRatio);
 const double tIon = tRatio * tElectron;
+const double tHeavyIon = tIon;
 
 const double qRatio = -1.0;
 const double qElectron = -1.0 * sqrt(epsilon0 * tElectron / static_cast<double>(numberDensityElectron));
 const double qIon = qRatio * qElectron;
+const double qHeavyIon = qIon;
 
 const double omegaPe = sqrt(static_cast<double>(numberDensityElectron) * pow(qElectron, 2) / mElectron / epsilon0);
 const double omegaPi = sqrt(static_cast<double>(numberDensityIon) * pow(qIon, 2) / mIon / epsilon0);
@@ -57,9 +61,11 @@ const double xPointPosition = 20.0 * ionInertialLength;
 //追加
 const int harrisNumIon = int(nx * numberDensityIon * 2.0 * sheatThickness);
 const int backgroundNumIon = int(0.2 * nx * ny * numberDensityIon);
-const int totalNumIon = harrisNumIon + backgroundNumIon;
+const int backgroundNumHeavyIon = 0.2 * nx * ny * numberDensityHeavyIon;
+const int totalNumIon = harrisNumIon + backgroundNumIon + backgroundNumHeavyIon;
 const int harrisNumElectron = int(nx * numberDensityElectron * 2.0 * sheatThickness);
-const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron);
+const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron)
+                                + nx * ny * numberDensityHeavyIon;
 const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
@@ -74,12 +80,16 @@ const double bulkVzIon = -bulkVzElectron / tRatio;
 
 const double vThIonB = sqrt(2.0 * tIon / 10.0 / mIon);
 const double vThElectronB = sqrt(2.0 * tElectron / 10.0 / mElectron);
+const double vThHeavyIonB = sqrt(2.0 * tHeavyIon / 10.0 / mHeavyIon);
 const double bulkVxElectronB = 0.0;
 const double bulkVyElectronB = 0.0;
 const double bulkVzElectronB = 0.0;
 const double bulkVxIonB = 0.0;
 const double bulkVyIonB = 0.0;
 const double bulkVzIonB = 0.0;
+const double bulkVxHeavyIonB = 0.0;
+const double bulkVyHeavyIonB = 0.0;
+const double bulkVzHeavyIonB = 0.0;
 
 
 void PIC2DSymXConY::initialize()
@@ -95,7 +105,10 @@ void PIC2DSymXConY::initialize()
         0, harrisNumIon, 200, particlesIon, sheatThickness
     );
     initializeParticle.uniformForPositionY(
-        harrisNumIon, totalNumIon, 300, particlesIon
+        harrisNumIon, harrisNumIon + backgroundNumIon, 300, particlesIon
+    );
+    initializeParticle.uniformForPositionY(
+        harrisNumIon + backgroundNumIon, totalNumIon, 350, particlesIon
     );
     initializeParticle.harrisForPositionY(
         0, harrisNumElectron, 400, particlesElectron, sheatThickness
@@ -117,7 +130,11 @@ void PIC2DSymXConY::initialize()
     );
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxIonB, bulkVyIonB, bulkVzIonB, vThIonB, vThIonB, vThIonB, 
-        harrisNumIon, totalNumIon, 700, particlesIon
+        harrisNumIon,harrisNumIon + backgroundNumIon, 700, particlesIon
+    );
+    initializeParticle.maxwellDistributionForVelocity(
+        bulkVxHeavyIonB, bulkVyHeavyIonB, bulkVzHeavyIonB, vThHeavyIonB, vThHeavyIonB, vThHeavyIonB, 
+        harrisNumIon + backgroundNumIon, totalNumIon, 750, particlesIon
     );
     initializeParticle.maxwellDistributionForVelocity(
         bulkVxElectron, bulkVyElectron, bulkVzElectron, vThElectron, vThElectron, vThElectron, 
@@ -172,6 +189,9 @@ int main()
     std::ofstream logfile("log.txt");
 
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
+    std::cout << "ion : " << harrisNumIon + backgroundNumIon << std::endl;
+    std::cout << "heavy ion : " << harrisNumIon + backgroundNumHeavyIon << std::endl;
+    std::cout << "electron : " << totalNumElectron << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;
     std::cout << "sheat thickness is " 
               << std::setprecision(4) << sheatThickness << "[debye length]" << std::endl;

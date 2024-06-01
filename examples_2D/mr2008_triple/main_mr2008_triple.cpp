@@ -9,6 +9,7 @@
 const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
+const double dOfLangdonMarderCorrection = 0.1;
 
 const int numberDensityIon = 10;
 const int numberDensityElectron = 10;
@@ -41,12 +42,12 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(60 * ionInertialLength);
+const int nx = int(200 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.5 * dx; 
 const double xmax = nx * dx - 1.0 * dx;
 
-const int ny = int(30 * ionInertialLength);
+const int ny = int(50 * ionInertialLength);
 const double dy = 1.0;
 const double ymin = 0.5 * dy; 
 const double ymax = ny * dy - 1.0 * dy;
@@ -54,7 +55,7 @@ const double ymax = ny * dy - 1.0 * dy;
 const double dt = 0.5;
 
 //追加
-const double sheatThickness = 1.0 * ionInertialLength;
+const double sheatThickness = 2.0 * ionInertialLength;
 const double reconnectionTriggerRatio = 0.1;
 const double xPointPosition = 20.0 * ionInertialLength;
 
@@ -65,7 +66,7 @@ const int backgroundNumHeavyIon = 0.2 * nx * ny * numberDensityHeavyIon;
 const int totalNumIon = harrisNumIon + backgroundNumIon + backgroundNumHeavyIon;
 const int harrisNumElectron = int(nx * numberDensityElectron * 2.0 * sheatThickness);
 const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron)
-                                + nx * ny * numberDensityHeavyIon;
+                                + backgroundNumHeavyIon * std::abs(qHeavyIon / qElectron);
 const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
@@ -178,7 +179,7 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 2000;
+const int totalStep = 20000;
 const int recordStep = 100;
 double totalTime = 0.0;
 
@@ -190,7 +191,7 @@ int main()
 
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "ion : " << harrisNumIon + backgroundNumIon << std::endl;
-    std::cout << "heavy ion : " << harrisNumIon + backgroundNumHeavyIon << std::endl;
+    std::cout << "heavy ion : " << backgroundNumHeavyIon << std::endl;
     std::cout << "electron : " << totalNumElectron << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;
     std::cout << "sheat thickness is " 

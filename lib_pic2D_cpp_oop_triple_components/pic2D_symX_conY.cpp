@@ -61,6 +61,9 @@ void PIC2DSymXConY::oneStep()
     fieldSolver.timeEvolutionE(E, B, current, dt);
     boundary.symmetricWallBoundaryEX(E);
     boundary.conductingWallBoundaryEY(E);
+    filter.langdonMarderCorrection(F, E, particlesIon, particlesElectron);
+    boundary.symmetricWallBoundaryEX(E);
+    boundary.conductingWallBoundaryEY(E);
 
     particlePush.pushPosition(
         particlesIon, particlesElectron, dt/2.0

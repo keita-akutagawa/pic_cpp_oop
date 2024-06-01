@@ -42,12 +42,12 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(50 * ionInertialLength);
+const int nx = int(300 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.5 * dx; 
 const double xmax = nx * dx - 1.0 * dx;
 
-const int ny = int(50 * ionInertialLength);
+const int ny = int(75 * ionInertialLength);
 const double dy = 1.0;
 const double ymin = 0.5 * dy; 
 const double ymax = ny * dy - 1.0 * dy;
@@ -179,13 +179,13 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 200;
+const int totalStep = 50000;
 const int recordStep = 100;
 double totalTime = 0.0;
 
 int main()
 {
-    std::string directoryname = "results1";
+    std::string directoryname = "results_mr=50-9_n=2";
     std::string filenameWithoutStep = "mr2008";
     std::ofstream logfile("log.txt");
 

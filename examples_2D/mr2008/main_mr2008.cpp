@@ -57,10 +57,10 @@ const double xPointPosition = 20.0 * ionInertialLength;
 
 //追加
 const int harrisNumIon = int(nx * numberDensityIon * 2.0 * sheatThickness);
-const int backgroundNumIon = int(0.2 * nx * ny * numberDensityIon);
+const int backgroundNumIon = int(0.4 * nx * ny * numberDensityIon);
 const int totalNumIon = harrisNumIon + backgroundNumIon;
 const int harrisNumElectron = int(nx * numberDensityElectron * 2.0 * sheatThickness);
-const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron);
+const int backgroundNumElectron = int(0.4 * nx * ny * numberDensityElectron);
 const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 

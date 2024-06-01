@@ -9,3 +9,4 @@ program
 *.o
 log*
 googletest/
+profile*

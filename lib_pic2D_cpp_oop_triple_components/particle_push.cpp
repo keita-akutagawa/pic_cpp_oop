@@ -1,4 +1,5 @@
 #include <cmath>
+#include <omp.h>
 #include "particle_push.hpp"
 
 
@@ -36,6 +37,7 @@ void ParticlePush::pushPositionOfOneSpecies(
     double x, y, z;
     double dtOverGamma;
 
+    #pragma omp parallel for private(vx, vy, vz, gamma, x, y, z, dtOverGamma)
     for (int i = nStart; i < nEnd; i++) {
         vx = particlesSpecies[i].vx;
         vy = particlesSpecies[i].vy;
@@ -109,6 +111,12 @@ void ParticlePush::pushVelocityOfOneSpeciesForWallBoundary(
     qOverMTimesDtOver2 = q / m * dt / 2.0;
     tmp1OverC2 = 1.0 / (c * c);
 
+    #pragma omp parallel for \
+    private(tmpForT, tmpForS, vx, vy, vz, gamma, particleField,  \
+        tx, ty, tz, sx, sy, sz, vxMinus, vyMinus, vzMinus, \
+         vx0, vy0, vz0, vxPlus, vyPlus, vzPlus, \
+         bx, by, bz, ex, ey, ez \
+    )
     for (int i = nStart; i < nEnd; i++) {
 
         vx = particlesSpecies[i].vx;

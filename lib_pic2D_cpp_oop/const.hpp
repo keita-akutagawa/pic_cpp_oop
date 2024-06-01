@@ -2,6 +2,7 @@
 extern const double c;
 extern const double epsilon0;
 extern const double mu0;
+extern const double dOfLangdonMarderCorrection;
 
 extern const int nx;
 extern const double dx;

@@ -9,7 +9,7 @@
 const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
-const double dOfLangdonMarderCorrection = 0.1;
+const double dOfLangdonMarderCorrection = 0.01;
 
 const int numberDensityIon = 10;
 const int numberDensityElectron = 10;
@@ -20,7 +20,7 @@ const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 1.0;
 const double mRatio = 9.0;
 const double mElectron = 1.0;
 const double mIon = mRatio * mElectron;
-const double mHeavyIon = mIon * 100;
+const double mHeavyIon = mIon * 50;
 
 
 const double tRatio = 1.0;

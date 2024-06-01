@@ -81,8 +81,7 @@ void Filter::langdonMarderCorrection(
         }
     }
     for (int j = 0; j < ny; j++) {
-        F[0][j] = ((E[0][0][j] - 0.0)/dx + (E[1][0][j] - 0.0)/dy)
-                - rho[0][j] / epsilon0;
+        F[0][j] = - rho[0][j] / epsilon0;
     }
     for (int i = 0; i < nx; i++) {
         F[i][0] = 0.0;

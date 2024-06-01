@@ -16,7 +16,9 @@ public:
 
     void langdonMarderCorrection(
         std::vector<std::vector<double>>& F, 
-        std::vector<std::vector<std::vector<double>>>& E 
+        std::vector<std::vector<std::vector<double>>>& E, 
+        const std::vector<Particle>& particlesIon, 
+        const std::vector<Particle>& particlesElectron
     );
 
 private:
@@ -25,6 +27,11 @@ private:
     void calculateRho(
         const std::vector<Particle>& particlesIon, 
         const std::vector<Particle>& particlesElectron
+    );
+
+    void calculateRhoOfOneSpecies(
+        const std::vector<Particle>& particlesSpecies, 
+        double q, int nStart, int nEnd
     );
 };
 

@@ -9,6 +9,7 @@
 const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
+const double dOfLangdonMarderCorrection = 0.01;
 
 const int numberDensityIon = 10;
 const int numberDensityElectron = 10;
@@ -37,12 +38,12 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(60 * ionInertialLength);
+const int nx = int(200 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.5 * dx; 
 const double xmax = nx * dx - 1.0 * dx;
 
-const int ny = int(30 * ionInertialLength);
+const int ny = int(50 * ionInertialLength);
 const double dy = 1.0;
 const double ymin = 0.5 * dy; 
 const double ymax = ny * dy - 1.0 * dy;
@@ -50,7 +51,7 @@ const double ymax = ny * dy - 1.0 * dy;
 const double dt = 0.5;
 
 //追加
-const double sheatThickness = 1.0 * ionInertialLength;
+const double sheatThickness = 2.0 * ionInertialLength;
 const double reconnectionTriggerRatio = 0.1;
 const double xPointPosition = 20.0 * ionInertialLength;
 
@@ -161,7 +162,7 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 2000;
+const int totalStep = 20000;
 const int recordStep = 100;
 double totalTime = 0.0;
 

@@ -6,6 +6,15 @@
 #include "../../lib_pic2D_cpp_oop_triple_components/pic2D_symX_conY.hpp"
 
 
+std::string directoryname = "results_mr=200-9_n=2";
+std::string filenameWithoutStep = "mr2008";
+std::ofstream logfile("log.txt");
+
+const int totalStep = 30000;
+const int recordStep = 100;
+double totalTime = 0.0;
+
+
 const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
@@ -20,7 +29,7 @@ const double B0 = sqrt(static_cast<double>(numberDensityElectron)) / 1.0;
 const double mRatio = 9.0;
 const double mElectron = 1.0;
 const double mIon = mRatio * mElectron;
-const double mHeavyIon = mIon * 50;
+const double mHeavyIon = mIon * 200;
 
 
 const double tRatio = 1.0;
@@ -42,12 +51,12 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(300 * ionInertialLength);
+const int nx = int(200 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.5 * dx; 
 const double xmax = nx * dx - 1.0 * dx;
 
-const int ny = int(75 * ionInertialLength);
+const int ny = int(50 * ionInertialLength);
 const double dy = 1.0;
 const double ymin = 0.5 * dy; 
 const double ymax = ny * dy - 1.0 * dy;
@@ -179,16 +188,9 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 50000;
-const int recordStep = 100;
-double totalTime = 0.0;
 
 int main()
 {
-    std::string directoryname = "results_mr=50-9_n=2";
-    std::string filenameWithoutStep = "mr2008";
-    std::ofstream logfile("log.txt");
-
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "ion : " << harrisNumIon + backgroundNumIon << std::endl;
     std::cout << "heavy ion : " << backgroundNumHeavyIon << std::endl;

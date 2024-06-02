@@ -6,6 +6,15 @@
 #include "../../lib_pic2D_cpp_oop/pic2D_symX_conY.hpp"
 
 
+std::string directoryname = "results_mr=9";
+std::string filenameWithoutStep = "mr2008";
+std::ofstream logfile("log.txt");
+
+const int totalStep = 20000;
+const int recordStep = 100;
+double totalTime = 0.0;
+
+
 const double c = 1.0;
 const double epsilon0 = 1.0;
 const double mu0 = 1.0;
@@ -162,16 +171,8 @@ void PIC2DSymXConY::initialize()
 
 //-------------------------------------------------------------
 
-const int totalStep = 50000;
-const int recordStep = 100;
-double totalTime = 0.0;
-
 int main()
 {
-    std::string directoryname = "results_mr=9";
-    std::string filenameWithoutStep = "mr2008";
-    std::ofstream logfile("log.txt");
-
     std::cout << "total number of partices is " << totalNumParticles << std::endl;
     std::cout << "box size is " << nx << " X " << ny << std::endl;
     std::cout << "sheat thickness is " 

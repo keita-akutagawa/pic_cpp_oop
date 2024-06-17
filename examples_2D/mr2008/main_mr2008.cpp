@@ -6,7 +6,7 @@
 #include "../../lib_pic2D_cpp_oop/pic2D_symX_conY.hpp"
 
 
-std::string directoryname = "results_mr=9";
+std::string directoryname = "results_mr=9_small";
 std::string filenameWithoutStep = "mr2008";
 std::ofstream logfile("log.txt");
 
@@ -47,12 +47,12 @@ const double debyeLength = sqrt(epsilon0 * tElectron / static_cast<double>(numbe
 //追加
 const double ionInertialLength = c / omegaPi;
 
-const int nx = int(300 * ionInertialLength);
+const int nx = int(200 * ionInertialLength);
 const double dx = 1.0;
 const double xmin = 0.5 * dx; 
 const double xmax = nx * dx - 1.0 * dx;
 
-const int ny = int(75 * ionInertialLength);
+const int ny = int(50 * ionInertialLength);
 const double dy = 1.0;
 const double ymin = 0.5 * dy; 
 const double ymax = ny * dy - 1.0 * dy;
@@ -66,10 +66,10 @@ const double xPointPosition = 20.0 * ionInertialLength;
 
 //追加
 const int harrisNumIon = int(nx * numberDensityIon * 2.0 * sheatThickness);
-const int backgroundNumIon = int(0.4 * nx * ny * numberDensityIon);
+const int backgroundNumIon = int(0.2 * nx * ny * numberDensityIon);
 const int totalNumIon = harrisNumIon + backgroundNumIon;
 const int harrisNumElectron = int(nx * numberDensityElectron * 2.0 * sheatThickness);
-const int backgroundNumElectron = int(0.4 * nx * ny * numberDensityElectron);
+const int backgroundNumElectron = int(0.2 * nx * ny * numberDensityElectron);
 const int totalNumElectron = harrisNumElectron + backgroundNumElectron;
 const int totalNumParticles = totalNumIon + totalNumElectron;
 
@@ -82,8 +82,8 @@ const double bulkVxIon = -bulkVxElectron / tRatio;
 const double bulkVyIon = -bulkVyElectron / tRatio;
 const double bulkVzIon = -bulkVzElectron / tRatio;
 
-const double vThIonB = sqrt(2.0 * tIon / 10.0 / mIon);
-const double vThElectronB = sqrt(2.0 * tElectron / 10.0 / mElectron);
+const double vThIonB = sqrt(2.0 * tIon / mIon);
+const double vThElectronB = sqrt(2.0 * tElectron / mElectron);
 const double bulkVxElectronB = 0.0;
 const double bulkVyElectronB = 0.0;
 const double bulkVzElectronB = 0.0;
